@@ -1,2 +1,2 @@
-# scylla
-Autonomous Driving using SLAM
+# Scylla  
+Autonomous Driving Software using Simultaneous Localization and Mapping
