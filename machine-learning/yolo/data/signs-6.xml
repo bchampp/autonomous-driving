@@ -1,0 +1,26 @@
+<annotation>
+	<folder>data</folder>
+	<filename>signs-6.jpg</filename>
+	<path>C:\Users\Brent\Documents\autodrive\autonomous-driving\machine-learning\yolo\data\signs-6.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1280</width>
+		<height>720</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>speed limit</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>342</xmin>
+			<ymin>242</ymin>
+			<xmax>405</xmax>
+			<ymax>325</ymax>
+		</bndbox>
+	</object>
+</annotation>

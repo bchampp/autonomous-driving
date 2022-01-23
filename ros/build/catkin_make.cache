@@ -1,0 +1,2 @@
+qcar:rplidar_ros/rplidar_ros:vision_opencv/cv_bridge:vision_opencv/image_geometry:vision_opencv/opencv_tests:vision_opencv/vision_opencv
+-DPYTHON_EXECUTABLE=/usr/bin/python3 -DCATKIN_DEVEL_PREFIX=/home/nvidia/ros1/devel -DCMAKE_INSTALL_PREFIX=/home/nvidia/ros1/install -G Unix Makefiles
