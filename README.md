@@ -13,3 +13,17 @@ The modules implemented in this project are:
 3. Planning system to control the cars behaviour.
 4. Control system to effectively move the car.
 5. Simulation using CARLA and Simulink.
+
+## Getting Started
+The first step in running a ROS application is sourcing the correct ROS version.
+
+`source /opt/ros/melodic/setup.bash`
+
+You can check the available ROS packages with this command:
+`rospack list-names`
+
+Next, we need to build the packages that we're interested in deploying.
+`catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3`.
+
+This will build the packages defined in our `ros/src/
+
