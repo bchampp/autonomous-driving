@@ -15,8 +15,8 @@ from cv_bridge import CvBridge, CvBridgeError
 class RGBDNode(object):
 	def __init__(self):
 		super().__init__()
-		self.rgbd_color_pub = rospy.Publisher('/qcar/realsense_color', Image, queue_size=10)
-		self.rgbd_depth_pub = rospy.Publisher('/qcar/realsense_depth', Image, queue_size=10)
+		self.rgbd_color_pub = rospy.Publisher('/qcar/realsense_color', Image, queue_size=1)
+		self.rgbd_depth_pub = rospy.Publisher('/qcar/realsense_depth', Image, queue_size=1)
 		self.bridge = CvBridge()
 		
 		#Initialize CV sensors

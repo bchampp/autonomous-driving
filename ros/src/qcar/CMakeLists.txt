@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -48,11 +49,12 @@ catkin_python_setup()
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES
+  MotorCommands.msg
+  ObjectDetection.msg
+  ObjectDetections.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -69,13 +71,12 @@ catkin_python_setup()
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   geometry_msgs#   sensor_msgs#   std_msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
-################################################
-## Declare ROS dynamic reconfigure parameters ##
+# Declare ROS dynamic reconfigure parameters ##
 ################################################
 
 ## To declare and build dynamic reconfigure parameters within this
@@ -108,6 +109,7 @@ catkin_package(
 #  LIBRARIES qcar
 #  CATKIN_DEPENDS geometry_msgs rospy sensor_msgs std_msgs
 #  DEPENDS system_lib
+  CATKIN_DEPENDS message_runtime
 )
 
 ###########

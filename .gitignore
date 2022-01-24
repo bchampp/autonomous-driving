@@ -1,0 +1,3 @@
+**/build/**
+ros/build/**
+**/__pycache__/**

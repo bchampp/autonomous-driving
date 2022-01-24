@@ -7,6 +7,7 @@ import rospy
 import numpy as np
 from qcar.product_QCar import QCar
 from qcar.q_interpretation import *
+from qcar.msg import MotorCommands
 
 from std_msgs.msg import String, Float32
 from geometry_msgs.msg import Vector3Stamped
@@ -23,7 +24,8 @@ class QcarNode(object):
 		self.myCar = QCar()
 		self.sample_time = 0.001
 		self.command = np.array([0, 0])
-		self.cmd_sub_ = rospy.Subscriber('/qcar/user_command', Vector3Stamped, self.process_cmd, queue_size=100)
+		# self.cmd_sub_ = rospy.Subscriber('/qcar/user_command', Vector3Stamped, self.process_cmd, queue_size=100)
+		self.control_sub = rospy.Subscriber('/qcar/control', MotorCommands, self.process_cmd, queue_size=10)
 #-------------------------------------------------------------------------------------------------
 	def looping(self):
 		
@@ -56,11 +58,8 @@ class QcarNode(object):
 	
 	
 	def process_cmd(self, sub_cmd):
-		vel_cmd = sub_cmd.vector.x
-		str_cmd = sub_cmd.vector.y - 0.01
-		self.command = np.array([vel_cmd, str_cmd])
-		
-
+		# rospy.loginfo(sub_cmd)
+		self.command = np.array([sub_cmd.throttle, sub_cmd.steering])
 
 if __name__ == '__main__':
 	rospy.init_node('qcar_node')

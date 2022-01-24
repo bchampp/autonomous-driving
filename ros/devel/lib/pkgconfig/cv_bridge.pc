@@ -1,8 +1,0 @@
-prefix=/home/nvidia/ros1/devel
-
-Name: cv_bridge
-Description: Description of cv_bridge
-Version: 1.13.0
-Cflags: -I/home/nvidia/ros1/src/vision_opencv/cv_bridge/include -I/usr/include/opencv4
-Libs: -L${prefix}/lib -lcv_bridge /usr/lib/aarch64-linux-gnu/libopencv_core.so.4.1.1 /usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.4.1.1 /usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.4.1.1
-Requires: rosconsole sensor_msgs

@@ -1,8 +1,0 @@
-prefix=/home/nvidia/ros1/devel
-
-Name: qcar
-Description: Description of qcar
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
