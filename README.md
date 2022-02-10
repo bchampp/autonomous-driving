@@ -32,3 +32,5 @@ This will build the packages defined in our `ros/src/`
 
 
 
+## CARLA Integration
+Setting up the CARLA integration is a little bit tedious. Follow the steps below:

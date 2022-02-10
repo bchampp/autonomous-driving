@@ -1,3 +1,6 @@
 **/build/**
 ros/build/**
+ros/devel/**
 **/__pycache__/**
+.vscode/
+ros/src/ros-bridge/*
