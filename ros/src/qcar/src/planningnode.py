@@ -15,7 +15,7 @@ class PlanningNode(object):
         self.publishers()
         self._cv_bridge = CvBridge()
         self.now = rospy.Time.now()
-        self.throttle = 0
+        self.throttle = 0.1
         self.steering = 0.0
         self.sample_time = 0.001
         self.stopped = False

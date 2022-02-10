@@ -1,18 +1,22 @@
 #!/usr/bin/env python3
 import roslib
 import rospy
+import os
 from cv_bridge import CvBridge, CvBridgeError
 from sensor_msgs.msg import Image
-from perception import ObjectDetector
 from qcar.msg import ObjectDetection, ObjectDetections
+from object_detection.object_detector_detection_api import ObjectDetectorDetectionAPI
+import cv2
+import threading
 
 class ObjectDetectionNode(object):
     def __init__(self):
         super().__init__()
         rospy.loginfo("Starting Object Detection Interface")
+        curr_dir = os.path.dirname(os.path.abspath(__file__))
+        self.predictor = ObjectDetectorDetectionAPI()
         self.subscribers()
         self.publishers()
-        self.object_detector = ObjectDetector()
         self._cv_bridge = CvBridge()
         self.now = rospy.Time.now()
 
@@ -27,48 +31,45 @@ class ObjectDetectionNode(object):
         self.visualize_pub = rospy.Publisher(vis_topic, Image, queue_size=1)
 
     def img_callback(self, img_msg):
-        now = rospy.get_rostime()
-
         image_np = self._cv_bridge.imgmsg_to_cv2(img_msg, 'bgr8')
 
-        # perform object detections
-        self.object_detector.detect_objects(image_np)
+        try:
+            # TODO: This can be better
+            result = self.predictor.detect(image_np)
 
-        if (len(self.object_detector.detections) > 0):
-            detections_msg = self.convert_results_to_message(self.object_detector.detections)
+            if (len(result) > 0):
+                msg = ObjectDetections()
 
-            # TODO: get depth to object detections
-            
-            # visualize object detections
-            image_np = ObjectDetector.overlay_detections(image_np, self.object_detector.detections)
-            
-            try:
-                self.detections_pub.publish(detections_msg)
+                for obj in result:
+                    detection = ObjectDetection()
+                    if obj[3] == 'stop sign':
+                        detection.classification = 0
+                    else:
+                        detection.classification = -1
+                    detection.confidence = obj[2]
+                    detection.location = obj[0]
+                    msg.detections.append(detection)
+                    rospy.loginfo('coordinates: {} {}. class: "{}". confidence: {:.2f}'.
+                            format(obj[0], obj[1], obj[3], obj[2]))
+                    cv2.rectangle(image_np, obj[0], obj[1], (0, 255, 0), 2)
+                    cv2.putText(image_np, '{}: {:.2f}'.format(obj[3], obj[2]),
+                        (obj[0][0], obj[0][1] - 5), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2)
+
+                try:
+                    self.detections_pub.publish(msg)
+                    self.visualize_pub.publish(self._cv_bridge.cv2_to_imgmsg(image_np, 'bgr8'))
+                    rospy.loginfo("Inference at %s FPS", 1.0/float(rospy.Time.now().to_sec() - self.now.to_sec()))
+                    self.now = rospy.Time.now()
+                except Exception as e:
+                    rospy.logerr(e)
+
+            else:
+                msgs = ObjectDetections()
+                self.detections_pub.publish(msgs)
                 self.visualize_pub.publish(self._cv_bridge.cv2_to_imgmsg(image_np, 'bgr8'))
-                rospy.loginfo("Inference at %s FPS", 1.0/float(rospy.Time.now().to_sec() - self.now.to_sec()))
-                self.now = rospy.Time.now()
-            except Exception as e:
-                rospy.logerr(e)
 
-        else:
-            msgs = ObjectDetections()
-            self.detections_pub.publish(msgs)
-        self.skip_count = 0
-
-    def convert_results_to_message(self, detections):
-        msgs = ObjectDetections()
-        for i in range(len(detections)):
-            msg = ObjectDetection()
-            if detections[i].classification == 'stop sign':
-                msg.classification = 0
-            msg.confidence = detections[i].confidence
-            msg.location = detections[i].center
-            msgs.detections.append(msg)
-
-        return msgs
-
-
-
+        except Exception as e:
+            rospy.logerr(e)
 
 if __name__ == '__main__':
     rospy.init_node('object_detection_node')

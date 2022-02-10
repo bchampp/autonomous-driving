@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<sdf version="1.4">
+<world name="myworld">
+	<include>
+		<uri>model://sun</uri>
+	</include>
+
+	<include>
+		<uri>model://ground_plane</uri>
+	</include>
+	 <road name="my_road">
+   <width>2</width>
+   <point>0 0 0</point>
+   <point>5 2 0</point>
+   <point>8 5 0</point>
+   <point>10 10 0</point>
+ </road>
+ 
+</world>
+</sdf>
