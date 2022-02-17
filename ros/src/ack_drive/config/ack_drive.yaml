@@ -1,0 +1,44 @@
+qcar:
+  mobile_base_controller:
+    type: "ackermann_steering_controller/AckermannSteeringController"
+    rear_wheel: 'hubfr_wheelfr_joint'
+    front_steer: 'hubfl_wheelfl_joint'
+    publish_rate: 50.0               # default: 50
+    pose_covariance_diagonal : [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+    twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+
+
+
+    # Steer position angle multipliers for fine tuning.
+    steer_pos_multiplier       : 1.0
+
+    # Velocity commands timeout [s], default 0.5
+    cmd_vel_timeout: 0.25
+
+    # Base frame_id
+    base_frame_id: base #default: base_link
+
+    # Odom frame_id
+    odom_frame_id: odom
+
+    # Velocity and acceleration limits
+    # Whenever a min_* is unspecified, default to -max_*
+    linear:
+      x:
+        has_velocity_limits    : true
+        max_velocity           : 1.0  # m/s
+        min_velocity           : -0.5 # m/s
+        has_acceleration_limits: true
+        max_acceleration       : 0.8  # m/s^2
+        min_acceleration       : -0.4 # m/s^2
+        has_jerk_limits        : true
+        max_jerk               : 5.0 # m/s^3
+
+    angular:
+      z:
+        has_velocity_limits    : true
+        max_velocity           : 1.7  # rad/s
+        has_acceleration_limits: true
+        max_acceleration       : 1.5  # rad/s^2
+        has_jerk_limits        : true
+        max_jerk               : 2.5 # rad/s^3

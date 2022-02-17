@@ -124,7 +124,8 @@
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <!-- <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/> -->
+                <cylinder length="0.25" radius="0.3" />
             </geometry>
         </collision>
         <inertial>
@@ -150,7 +151,8 @@
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <!-- <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/> -->
+                <cylinder length="0.25" radius="0.3" />
             </geometry>
         </collision>
         <inertial>
@@ -177,7 +179,8 @@
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <!-- <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/> -->
+                <cylinder length="0.25" radius="0.3" />
             </geometry>
         </collision>
         <inertial>
@@ -204,7 +207,8 @@
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <!-- <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/> -->
+                <cylinder length="0.25" radius="0.3" />
             </geometry>
         </collision>
         <inertial>
@@ -296,7 +300,7 @@
     <transmission name="hubfl_wheelfl_tran">
         <type>>transmission_interface/SimpleTransmission</type>
         <joint name="hubfl_wheelfl_joint">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </joint>
         <actuator name="hubfl_wheelfl_motor">
             <mechanicalReduction>1</mechanicalReduction>
@@ -305,7 +309,7 @@
     <transmission name="hubfr_wheelfr_tran">
         <type>>transmission_interface/SimpleTransmission</type>
         <joint name="hubfr_wheelfr_joint">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </joint>
         <actuator name="hubfr_wheelfr_motor">
             <mechanicalReduction>1</mechanicalReduction>
@@ -315,7 +319,7 @@
     <transmission name="base_wheelrl_tran">
         <type>>transmission_interface/SimpleTransmission</type>
         <joint name="base_wheelrl_joint">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         </joint>
         <actuator name="base_wheelrl_motor">
             <mechanicalReduction>1</mechanicalReduction>
@@ -324,7 +328,7 @@
     <transmission name="base_wheelrr_tran">
         <type>>transmission_interface/SimpleTransmission</type>
         <joint name="base_wheelrr_joint">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         </joint>
         <actuator name="base_wheelrr_motor">
             <mechanicalReduction>1</mechanicalReduction>
@@ -334,6 +338,15 @@
     <xacro:sensor_d435 name="camera" topics_ns="camera" parent="camera_rgb" publish_pointcloud="true">
         <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:sensor_d435>  
+    
+<!-- Ros Control plugin-->
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/</robotNamespace>
+        </plugin>
+    </gazebo>
+
+
   </robot>
   
 
