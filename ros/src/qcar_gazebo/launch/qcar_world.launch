@@ -1,22 +1,43 @@
 <launch>	  
+    <!-- Set initial robot pose -->
+    <arg name="x" default="0.5"/>
+    <arg name="y" default="-0.4"/>
+    <arg name="z" default="-0.1"/>
+    <arg name="roll" default="0"/>
+    <arg name="pitch" default="0"/>
+    <arg name="yaw" default="0.5"/>
+
+	<!-- Send the URDF to the parameter server -->
+	<param name="robot_description" command="$(find xacro)/xacro $(find qcar_gazebo)/urdf/qcar_model.xacro" />
+	
+	<!-- Send the control parameters to the parameter server -->
+	<rosparam file="$(find qcar_control)/config/qcar_control.yaml" command="load"/>
+
+	<!-- Publish the robot state -->
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+	</node>
+
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+	<!-- Launch the Gazebo World -->
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">	    
-		<arg name="world_name" value="$(find qcar_gazebo)/worlds/qcar.world"/>	    
+		<arg name="world_name" value="$(find qcar_gazebo)/worlds/barrels.world"/>	    
 		<arg name="gui" value="true"/>	
 		<arg name="verbose" value="true" />  
 	</include>	
 
-	<param name="robot_description" command="$(find xacro)/xacro $(find qcar)/urdf/qcar_model.xacro" />
-	<node name="mybot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model qcar" />
-	  <!-- send fake joint values -->
-  <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui">
-  </node>
+	<!-- Spawn the qcar -->
+	<node name="spawn_qcar" pkg="gazebo_ros" type="spawn_model" output="screen" 
+		args="-urdf -param robot_description -model qcar
+        -x $(arg x) -y $(arg y) -z $(arg z)
+        -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
 
+	<!-- Spawn the controller -->
+	<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+		output="screen" ns="/qcar" args="rr_controller rl_controller base_fr_controller base_fl_controller joint_state_controller"/>
 
-  <!-- Combine joint values -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
-
-  <include file="$(find ack_drive)/launch/drive.launch" />
-
-	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find urdf_tutorial)/rviz/urdf.rviz" required="true"/>
-	<!-- <node name="rviz" pkg="rviz" type="rviz" /> -->
+	<!-- <node name="control_node" pkg="qcar" type="controlnode.py" output="screen"/> -->
+	<!-- <node name="command_node" pkg="qcar" type="commandnode_local.py" output="screen"/> -->
+	<!-- Launch rviz visualization -->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find qcar_gazebo)/rviz/qcar.rviz" required="true"/>
 </launch>
