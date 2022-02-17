@@ -5,8 +5,7 @@ from __future__ import division, print_function, absolute_import
 import roslib
 import rospy
 import numpy as np
-from qcar.q_misc import *
-from qcar.q_ui import *
+from qcar.q_ui import gamepadViaTarget
 from qcar.q_interpretation import *
 
 from geometry_msgs.msg import Vector3Stamped

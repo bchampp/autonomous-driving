@@ -2,20 +2,21 @@
 
 <robot name="QCar" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find qcar)/urdf/materials.xacro" />
-  <!-- <xacro:include filename="$(find qcar)/urdf/macros.xacro" /> -->
+  <xacro:include filename="$(find qcar_gazebo)/urdf/materials.xacro" />
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+
   <link name="base">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarBody.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarBody.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="white"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarBody.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarBody.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>
@@ -34,14 +35,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarLidar.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarLidar.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="blue"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarLidar.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarLidar.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>
@@ -62,14 +63,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarSteeringHubL.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarSteeringHubL.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="orange"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarSteeringHubL.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarSteeringHubL.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>
@@ -90,14 +91,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarSteeringHubR.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarSteeringHubR.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="orange"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarSteeringHubR.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarSteeringHubR.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>
@@ -116,14 +117,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="red"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>
@@ -142,14 +143,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="orange"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>
@@ -169,14 +170,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="orange"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>
@@ -196,14 +197,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>    
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="red"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>
@@ -276,7 +277,7 @@
     <transmission name="base_hubfl_tran">
         <type>>transmission_interface/SimpleTransmission</type>
         <joint name="base_hubfl_joint">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </joint>
         <actuator name="base_hubfl_motor">
             <mechanicalReduction>1</mechanicalReduction>
@@ -285,7 +286,7 @@
     <transmission name="base_hubfr_tran">
         <type>>transmission_interface/SimpleTransmission</type>
         <joint name="base_hubfr_joint">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </joint>
         <actuator name="base_hubfr_motor">
             <mechanicalReduction>1</mechanicalReduction>
@@ -314,7 +315,7 @@
     <transmission name="base_wheelrl_tran">
         <type>>transmission_interface/SimpleTransmission</type>
         <joint name="base_wheelrl_joint">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         </joint>
         <actuator name="base_wheelrl_motor">
             <mechanicalReduction>1</mechanicalReduction>
@@ -323,14 +324,22 @@
     <transmission name="base_wheelrr_tran">
         <type>>transmission_interface/SimpleTransmission</type>
         <joint name="base_wheelrr_joint">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         </joint>
         <actuator name="base_wheelrr_motor">
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
 
+    <xacro:sensor_d435 name="camera" topics_ns="camera" parent="camera_rgb">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:sensor_d435>  
 
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/qcar</robotNamespace>
+        </plugin>
+    </gazebo>
   </robot>
   
 
