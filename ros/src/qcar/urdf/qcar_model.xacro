@@ -3,7 +3,8 @@
 <robot name="QCar" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:include filename="$(find qcar)/urdf/materials.xacro" />
-  <!-- <xacro:include filename="$(find qcar)/urdf/macros.xacro" /> -->
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+
   <link name="base">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -330,7 +331,9 @@
         </actuator>
     </transmission>
 
-
+    <xacro:sensor_d435 name="camera" topics_ns="camera" parent="camera_rgb" publish_pointcloud="true">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:sensor_d435>  
   </robot>
   
 
