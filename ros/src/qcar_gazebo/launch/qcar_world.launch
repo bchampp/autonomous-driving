@@ -21,7 +21,7 @@
 
 	<!-- Launch the Gazebo World -->
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">	    
-		<arg name="world_name" value="$(find qcar_gazebo)/worlds/barrels.world"/>	    
+		<arg name="world_name" value="$(find qcar_gazebo)/worlds/qcar.world"/>	    
 		<arg name="gui" value="true"/>	
 		<arg name="verbose" value="true" />  
 	</include>	
@@ -36,8 +36,8 @@
 	<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
 		output="screen" ns="/qcar" args="rr_controller rl_controller base_fr_controller base_fl_controller joint_state_controller"/>
 
-	<!-- <node name="control_node" pkg="qcar" type="controlnode.py" output="screen"/> -->
-	<!-- <node name="command_node" pkg="qcar" type="commandnode_local.py" output="screen"/> -->
+	<node name="control_node" pkg="qcar" type="controlnode.py" output="screen"/>
+	<node name="command_node" pkg="qcar" type="commandnode_local.py" output="screen"/>
 	<!-- Launch rviz visualization -->
 	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find qcar_gazebo)/rviz/qcar.rviz" required="true"/>
 </launch>
