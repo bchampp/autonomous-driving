@@ -1,0 +1,4 @@
+<launch>
+    <node name="object_detection_node" pkg="qcar_perception" type="object_detection.py" output="screen" />
+    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find qcar_perception)/rviz/perception.rviz" /> -->
+</launch>
