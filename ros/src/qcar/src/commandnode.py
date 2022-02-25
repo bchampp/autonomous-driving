@@ -1,42 +1,52 @@
 #!/usr/bin/env python3
 
-from __future__ import division, print_function, absolute_import
-
-import roslib
+import threading
+import inputs
 import rospy
-import numpy as np
-from qcar.q_ui import gamepadViaTarget
-from qcar.q_interpretation import *
+import time 
+from std_msgs.msg import Float64
+from numpy import interp 
 
-from geometry_msgs.msg import Vector3Stamped
-import time
+class LocalCommandNode(object):
+    def __init__(self):
+        super().__init__()
+        
+        gamepadThread = threading.Thread(target=self.monitorGamepad)
+        gamepadThread.daemon = True
+        gamepadThread.start()
+        
+        self.commands = {
+            'throttle': 0,
+            'steering': 0
+        }
 
-class CommandNode(object):
-	def __init__(self):
-		super().__init__()
-		self.gpad = gamepadViaTarget(1)
-		self.cmd_pub_ = rospy.Publisher('/qcar/user_command', Vector3Stamped, queue_size=100)
-		while not rospy.is_shutdown():
-			# left_lateral, left_longitudinal, right_lateral, right_longitudinal, LT, RT, A, B, X, Y, LB, RB, BACK, START, Logitech, hat = gamepad_io_qcar() # .................... Logitech......................
-			new = self.gpad.read()
-			pose = control_from_gamepad(self.gpad.LB, self.gpad.RT, self.gpad.LLA, self.gpad.A)
-			self.process_command(pose, new)
-			time.sleep(0.01)
-		self.gpad.terminate()
-#--------------------------------------------------------------------------------------------
+        self.throttle_pub = rospy.Publisher('/qcar/velocity', Float64, queue_size=100)
+        self.steering_pub = rospy.Publisher('/qcar/steering', Float64, queue_size=100)
 
-	def process_command(self, pose, new):
-		if new:
-			pub_cmd = Vector3Stamped()
-			pub_cmd.header.stamp = rospy.Time.now() 
-			pub_cmd.header.frame_id = 'command_input'
-			pub_cmd.vector.x = float(pose[0])
-			pub_cmd.vector.y = float(pose[1])
-			self.cmd_pub_.publish(pub_cmd)
+        rate = rospy.Rate(10)
+        while not rospy.is_shutdown():
+            self.publish_command(self.commands['throttle'], self.commands['steering'])
+            rate.sleep()
+
+    def monitorGamepad(self):
+        while True:
+            try:
+                for event in inputs.get_gamepad():
+                    if (event.code == 'ABS_RX'):
+                        self.commands['steering'] = event.state
+                    if (event.code == 'ABS_RZ'):
+                        self.commands['throttle'] = event.state
+            except inputs.UnpluggedError:
+                time.sleep(0.5)
+
+    def publish_command(self, throttle, steering):
+        throttle_remapped = interp(throttle, [0, 255], [0, 30])
+        steering_adjusted = steering - 128
+        steering_remapped = interp(steering_adjusted, [-32256, 32256], [1, -1])
+        self.throttle_pub.publish(Float64(throttle_remapped))
+        self.steering_pub.publish(Float64(steering_remapped))
 
 if __name__ == '__main__':
-	rospy.init_node('command_node')
-	r = CommandNode()
-
-	rospy.spin()
-	
+    rospy.init_node('command_node')
+    r = LocalCommandNode()
+    rospy.spin()
