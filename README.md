@@ -28,6 +28,19 @@ catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
 source devel/setup.bash
 ```
 
+## Data Collection and Playback
+Launch files have been included to easily collect and replay data against the developed system. These files are included in the `qcar` package as `collect.launch` and `playback.launch`. The collect script will collect data from all relevant sensors for the system using the controller as input. The playback script will replay a rosbag and run all the systems against the recorded data.
+
+To collect data:
+```
+roslaunch qcar collect.launch
+```
+
+To replay data:
+```
+roslaunch qcar playback.launch
+```
+
 ## Hardware Interface
 The hardware interface contains nodes to interact with the hardware available on the car. This is implemented in the `qcar` package in the ros workspace. 
 
@@ -66,6 +79,20 @@ Gazebo is an open source simulation platform developed by the same team as ROS. 
 
 More specific information for running the gazebo simulation can be found in `qcar_gazebo`.
 
+To run the simulation with all systems running:
+```
+roslaunch qcar_gazebo qcar_world.launch
+```
+
+To run the simulation with only perception systems running:
+```
+roslaunch qcar_gazebo qcar_perception.launch
+```
 
 ## CARLA Integration
 CARLA is an open source autonomous driving simulator built on the Unreal Engine. CARLA was used to test the accuracy of the perception systems implemented, and extend the project beyond the QCar. 
+
+To run the CARLA simulation with the perception systems running:
+```
+roslaunch qcar_carla qcar_perception
+```
