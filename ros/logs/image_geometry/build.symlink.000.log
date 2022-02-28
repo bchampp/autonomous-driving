@@ -1,0 +1,5 @@
+Symlinking /home/nvidia/autonomous-driving/ros/devel/share/image_geometry/cmake/image_geometryConfig-version.cmake
+Symlinking /home/nvidia/autonomous-driving/ros/devel/share/image_geometry/cmake/image_geometryConfig.cmake
+Symlinking /home/nvidia/autonomous-driving/ros/devel/lib/libimage_geometry.so
+Symlinking /home/nvidia/autonomous-driving/ros/devel/lib/pkgconfig/image_geometry.pc
+Symlinking /home/nvidia/autonomous-driving/ros/devel/lib/python2.7/dist-packages/image_geometry/__init__.py

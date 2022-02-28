@@ -11,9 +11,6 @@
     <!-- QCar Motor Actuation -->
   <node name="qcar_node" pkg="qcar" type="qcarnode.py" output="screen" />
 
-    <!-- Front Cameras -->
-  <node name="csi_node" pkg="qcar" type="csinode.py" output="screen" />   
-
     <!-- Intel RealSense -->
   <node name="rgbd_node" pkg="qcar" type="rgbdnode.py" output="screen" />
 

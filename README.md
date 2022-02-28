@@ -57,6 +57,11 @@ To run the vehicle and sensors manually using the controller:
 ```
 roslaunch qcar manual_control.launch
 ```
+<b>Note:</b> You may get an error running this on a fresh QCar setup as the QCar libraries require root permissions to actuate the hardware controllers. In this case, update the sudoers file and add the following line at the end: 
+```
+nvidia ALL=(ALL) NOPASSWD: ALL
+```
+This will allow ros to execute sudo without requiring a password. 
 
 ## Perception
 The perception interface is implemented in the `qcar_perception` package.

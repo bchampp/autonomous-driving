@@ -8,10 +8,10 @@ from perception import log
 
 # Set in the form (width, height)
 default_roi = np.float32([
-		(575, 450),  # Top-left corner
+		(550, 450),  # Top-left corner
 		(160, 720),  # Bottom-left corner            
 		(1330, 720), # Bottom-right corner
-		(750, 450)   # Top-right corner
+		(775, 450)   # Top-right corner
 	])
 
 

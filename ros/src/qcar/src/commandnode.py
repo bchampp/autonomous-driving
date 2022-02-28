@@ -20,8 +20,8 @@ class LocalCommandNode(object):
             'steering': 0
         }
 
-        self.throttle_pub = rospy.Publisher('/qcar/velocity', Float64, queue_size=100)
-        self.steering_pub = rospy.Publisher('/qcar/steering', Float64, queue_size=100)
+        self.throttle_pub = rospy.Publisher('/qcar/velocity_target', Float64, queue_size=100)
+        self.steering_pub = rospy.Publisher('/qcar/steering_target', Float64, queue_size=100)
 
         rate = rospy.Rate(10)
         while not rospy.is_shutdown():
