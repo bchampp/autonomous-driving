@@ -1,6 +1,0 @@
-realsense_gazebo_plugin
-/home/nvidia/autonomous-driving/ros/devel/.private/realsense_gazebo_plugin/cmake.lock /home/nvidia/autonomous-driving/ros/devel/./cmake.lock
-/home/nvidia/autonomous-driving/ros/devel/.private/realsense_gazebo_plugin/share/realsense_gazebo_plugin/cmake/realsense_gazebo_pluginConfig-version.cmake /home/nvidia/autonomous-driving/ros/devel/share/realsense_gazebo_plugin/cmake/realsense_gazebo_pluginConfig-version.cmake
-/home/nvidia/autonomous-driving/ros/devel/.private/realsense_gazebo_plugin/share/realsense_gazebo_plugin/cmake/realsense_gazebo_pluginConfig.cmake /home/nvidia/autonomous-driving/ros/devel/share/realsense_gazebo_plugin/cmake/realsense_gazebo_pluginConfig.cmake
-/home/nvidia/autonomous-driving/ros/devel/.private/realsense_gazebo_plugin/lib/librealsense_gazebo_plugin.so /home/nvidia/autonomous-driving/ros/devel/lib/librealsense_gazebo_plugin.so
-/home/nvidia/autonomous-driving/ros/devel/.private/realsense_gazebo_plugin/lib/pkgconfig/realsense_gazebo_plugin.pc /home/nvidia/autonomous-driving/ros/devel/lib/pkgconfig/realsense_gazebo_plugin.pc

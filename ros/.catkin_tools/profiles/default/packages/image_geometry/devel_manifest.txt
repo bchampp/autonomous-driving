@@ -1,7 +1,0 @@
-vision_opencv/image_geometry
-/home/nvidia/autonomous-driving/ros/devel/.private/image_geometry/cmake.lock /home/nvidia/autonomous-driving/ros/devel/./cmake.lock
-/home/nvidia/autonomous-driving/ros/devel/.private/image_geometry/share/image_geometry/cmake/image_geometryConfig-version.cmake /home/nvidia/autonomous-driving/ros/devel/share/image_geometry/cmake/image_geometryConfig-version.cmake
-/home/nvidia/autonomous-driving/ros/devel/.private/image_geometry/share/image_geometry/cmake/image_geometryConfig.cmake /home/nvidia/autonomous-driving/ros/devel/share/image_geometry/cmake/image_geometryConfig.cmake
-/home/nvidia/autonomous-driving/ros/devel/.private/image_geometry/lib/libimage_geometry.so /home/nvidia/autonomous-driving/ros/devel/lib/libimage_geometry.so
-/home/nvidia/autonomous-driving/ros/devel/.private/image_geometry/lib/pkgconfig/image_geometry.pc /home/nvidia/autonomous-driving/ros/devel/lib/pkgconfig/image_geometry.pc
-/home/nvidia/autonomous-driving/ros/devel/.private/image_geometry/lib/python2.7/dist-packages/image_geometry/__init__.py /home/nvidia/autonomous-driving/ros/devel/lib/python2.7/dist-packages/image_geometry/__init__.py
