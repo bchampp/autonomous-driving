@@ -18,9 +18,9 @@
   <!-- <node name="csi_node" pkg="qcar" type="csinode.py" output="screen" />    -->
 
     <!-- Intel RealSense -->
-  <node name="rgbd_node" pkg="qcar" type="rgbdnode.py" output="screen" />
+  <!-- <node name="rgbd_node" pkg="qcar" type="rgbdnode.py" output="screen" /> -->
 
   <!-- Show in Rviz   -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find qcar)/rviz/qcar.rviz"/>
+  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find qcar)/rviz/qcar.rviz"/> -->
 
 </launch>
