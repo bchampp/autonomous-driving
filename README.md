@@ -18,12 +18,20 @@ The modules implemented in this project are:
 5. Simulation using CARLA and Gazebo.
 
 ## Getting Started
-This project is implemented using the Robotic Operating System (ROS). The catkin workspace is stored in the `ros` folder. 
+This project is implemented using the Robotic Operating System (ROS). 
 
-To build the workspace:
+Before building the project, you must first install the vision_opencv package that is approriate for your ROS version from this git repo (the default version is Noetic): https://github.com/ros-perception/vision_opencv/tree/noetic
+
+To download the vision_opencv library:
 ```
-cd ros
-source /opt/ros/melodic/setup.bash # The QCar uses melodic
+cd ros/src
+git clone -b <branchname> git@github.com:ros-perception/vision_opencv.git
+```
+
+Now you can build your project. The catkin workspace is stored in the `ros` folder. So we must change to our parent directory and run a few commands:
+```
+cd ..
+source /opt/ros/<ROS_Version>/setup.bash # The QCar uses melodic, everywhere else we use noetic
 catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
 source devel/setup.bash
 ```
