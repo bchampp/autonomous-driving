@@ -1,3 +1,4 @@
+data/**
 **/build/**
 ros/build/**
 ros/devel/**
@@ -7,3 +8,5 @@ ros/src/ros-bridge/*
 ros/logs/**
 ros/.catkin_tools/**
 ros/src/vision_opencv
+ros/perception.log
+*.bag
