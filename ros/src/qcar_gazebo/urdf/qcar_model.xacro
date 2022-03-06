@@ -9,14 +9,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarBody.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarBody.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="white"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarBody.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarBody.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>
@@ -35,14 +35,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarLidar.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarLidar.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="blue"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarLidar.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarLidar.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>
@@ -63,14 +63,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarSteeringHubL.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarSteeringHubL.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="orange"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarSteeringHubL.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarSteeringHubL.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>
@@ -91,14 +91,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarSteeringHubR.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarSteeringHubR.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="orange"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarSteeringHubR.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarSteeringHubR.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>
@@ -117,14 +117,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="red"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>
@@ -143,14 +143,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="orange"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>
@@ -170,14 +170,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="orange"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>
@@ -197,14 +197,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>    
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="red"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://qcar_gazebo/meshes/QCarWheel.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://qcar_gazebo/models/qcar/QCarWheel.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
         <inertial>

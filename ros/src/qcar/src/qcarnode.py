@@ -2,41 +2,39 @@
 
 from __future__ import division, print_function, absolute_import
 
-import roslib
 import rospy
 import numpy as np
 from qcar.product_QCar import QCar
 from qcar.q_interpretation import *
-from qcar.msg import MotorCommands
 
-from std_msgs.msg import String, Float32
+from std_msgs.msg import String, Float64
 from geometry_msgs.msg import Vector3Stamped
 from sensor_msgs.msg import BatteryState
 import time
 
-class QcarNode(object):
+class QCarNode(object):
 
 	def __init__(self):
 		super().__init__()
 		self.battery_pub_ = rospy.Publisher('/qcar/battery_state', BatteryState, queue_size=10)
-		self.carvel_pub_ = rospy.Publisher('/qcar/velocity', Vector3Stamped, queue_size=10)
+		self.carvel_pub_ = rospy.Publisher('/qcar/velocity_actual', Vector3Stamped, queue_size=10)
 
 		self.myCar = QCar()
 		self.sample_time = 0.001
-		self.command = np.array([0, 0])
-		# self.cmd_sub_ = rospy.Subscriber('/qcar/user_command', Vector3Stamped, self.process_cmd, queue_size=100)
-		self.control_sub = rospy.Subscriber('/qcar/control', MotorCommands, self.process_cmd, queue_size=10)
-#-------------------------------------------------------------------------------------------------
+		self.throttle = 0.0
+		self.steering = 0.0
+		self.velocity_sub = rospy.Subscriber('/qcar/velocity_target', Float64, self.process_velocity, queue_size=10)
+		self.steering_sub = rospy.Subscriber('/qcar/steering_target', Float64, self.process_steering, queue_size=10)
+
 	def looping(self):
-		
+		rate = rospy.Rate(50)
+
 		while not rospy.is_shutdown():
 			# Generate Commands
 			LEDs = np.array([0, 0, 0, 0, 0, 0, 1, 1])
-			# print(self.command)
-			# talk to QCar
+			self.command = np.array([self.throttle, self.steering])
 			current, batteryVoltage, encoderCounts = self.myCar.read_write_std(self.command, LEDs)     
 			
-
 			battery_state = BatteryState()
 			battery_state.header.stamp = rospy.Time.now() 
 			battery_state.header.frame_id = 'battery_voltage'
@@ -50,20 +48,19 @@ class QcarNode(object):
 			velocity_state.vector.x = float(np.cos(self.command[1]) * longitudinal_car_speed)
 			velocity_state.vector.y = float(np.sin(self.command[1]) * longitudinal_car_speed)
 			self.carvel_pub_.publish(velocity_state)
-		
-			time.sleep(self.sample_time)
-		
+			rate.sleep()
 
 		self.myCar.terminate()
 	
-	
-	def process_cmd(self, sub_cmd):
-		# rospy.loginfo(sub_cmd)
-		self.command = np.array([sub_cmd.throttle, sub_cmd.steering])
+	def process_velocity(self, speed):
+		self.throttle = speed.data / 30.0
+
+	def process_steering(self, steering):
+		self.steering = steering.data
 
 if __name__ == '__main__':
 	rospy.init_node('qcar_node')
-	r = QcarNode()
+	r = QCarNode()
 	r.looping()
 	rospy.spin()
 	# print('Im here')
