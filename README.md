@@ -25,7 +25,7 @@ Before building the project, you must first install the vision_opencv package th
 To download the vision_opencv library:
 ```
 cd ros/src
-git clone -b <branchname> git@github.com:ros-perception/vision_opencv.git
+git clone -b <ROS_version> git@github.com:ros-perception/vision_opencv.git
 ```
 
 Now you can build your project. The catkin workspace is stored in the `ros` folder. So we must change to our parent directory and run a few commands:
