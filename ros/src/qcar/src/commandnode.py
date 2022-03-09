@@ -7,7 +7,7 @@ import time
 from std_msgs.msg import Float64
 from numpy import interp 
 
-class LocalCommandNode(object):
+class ControllerCommandNode(object):
     def __init__(self):
         super().__init__()
         
@@ -48,5 +48,6 @@ class LocalCommandNode(object):
 
 if __name__ == '__main__':
     rospy.init_node('command_node')
-    r = LocalCommandNode()
+    r = ControllerCommandNode()
     rospy.spin()
+

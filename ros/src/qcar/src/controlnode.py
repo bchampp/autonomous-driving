@@ -11,8 +11,8 @@ class ControlNode(object):
         self.now = rospy.Time.now()
 
     def subscribers(self):
-        self.velocity_sub = rospy.Subscriber('/qcar/velocity', Float64, self.throttle_callback, queue_size=1, buff_size=2**24)
-        self.steering_sub = rospy.Subscriber('/qcar/steering', Float64, self.steering_callback, queue_size=1, buff_size=2**24)
+        self.velocity_sub = rospy.Subscriber('/qcar/velocity_target', Float64, self.throttle_callback, queue_size=1, buff_size=2**24)
+        self.steering_sub = rospy.Subscriber('/qcar/steering_target', Float64, self.steering_callback, queue_size=1, buff_size=2**24)
 
     def publishers(self):
         # Rear wheels for throttle

@@ -22,6 +22,15 @@ This project is implemented using the Robotic Operating System (ROS).
 
 Before building the project, you must first install the vision_opencv package that is approriate for your ROS version from this git repo (the default version is Noetic): https://github.com/ros-perception/vision_opencv/tree/noetic
 
+## ROS Dependencies
+This project is implemented using ROS Noetic and Python3. There are some dependencies that need to be installed:
+```
+sudo apt-get install ros-noetic-desktop-full
+sudo apt-get install ros-noetic-gazebo
+sudo apt-get install ros-noetic-robot-state-publisher
+sudo apt-get install ros-noetic-velocity-controllers
+```
+
 To download the vision_opencv library:
 ```
 cd ros/src

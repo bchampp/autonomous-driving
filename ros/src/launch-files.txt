@@ -1,0 +1,23 @@
+control
+
+roslaunch qcar_control qcar_control.launch # this spawns the control node
+
+gazebo
+
+roslaunch qcar_gazebo object_detection.launch
+roslaunch qcar_gazebo lane_detection.launch
+roslaunch qcar_gazebo perception.launch
+roslaunch qcar_gazebo autonomous.launch
+
+mapping
+
+roslaunch qcar_mapping rtab_launch.launch
+roslaunch qcar_mapping map.launch
+roslaunch qcar_mapping localize.launch
+roslaunch qcar_mapping multi_session.launch
+
+perception
+
+roslaunch qcar_perception lane_detection.launch
+roslaunch qcar_perception object_detection.launch
+roslaunch qcar_perception perception.launch

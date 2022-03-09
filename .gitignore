@@ -10,3 +10,4 @@ ros/.catkin_tools/**
 ros/src/vision_opencv
 ros/perception.log
 *.bag
+frame**

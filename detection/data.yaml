@@ -1,0 +1,5 @@
+train: ../train/images
+val: ../valid/images
+
+nc: 5
+names: ['animal crossing', 'do not enter', 'slow', 'speed limit 15', 'stop']

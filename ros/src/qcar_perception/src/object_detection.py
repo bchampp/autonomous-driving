@@ -19,7 +19,8 @@ class ObjectDetectionNode(object):
         self.now = rospy.Time.now()
 
     def subscribers(self):
-        topic = '/qcar/realsense_color'
+        topic = rospy.get_param('/camera_topic') + 'image_raw'
+        print(topic)
         self._sub = rospy.Subscriber(topic, Image, self.img_callback, queue_size=1, buff_size=2**24)
 
     def publishers(self):
