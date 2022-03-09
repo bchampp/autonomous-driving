@@ -20,14 +20,21 @@ The modules implemented in this project are:
 ## Getting Started
 This project is implemented using the Robotic Operating System (ROS). 
 
-Before building the project, you must first install the vision_opencv package that is approriate for your ROS version from this git repo (the default version is Noetic): https://github.com/ros-perception/vision_opencv/tree/noetic
+After cloning this repo, and before you build it using catkin_make, you must first install the vision_opencv package that is approriate for your ROS version.
 
-To download the vision_opencv library:
+### Downloading vision_opencv for ROS Noetic
+If you are using ROS Noetic, you can download the appropriate library by going to this git repo (ensure you are on the Noetic branch): https://github.com/ros-perception/vision_opencv/tree/noetic
 ```
 cd ros/src
-git clone -b <ROS_version> git@github.com:ros-perception/vision_opencv.git
+git clone -b noetic git@github.com:ros-perception/vision_opencv.git
 ```
-
+### Downloading vision_opencv for ROS Melodic and on the QCar
+If you are installing on the Quanser Qcar, or on any machine running ROS Melodic, you can grab the appropriate vision_openCV library from this repo https://github.com/queens-autodrive/vision-opencv
+```
+cd ros/src
+git clone git@github.com:queens-autodrive/vision-opencv.git
+```
+## Building your Project
 Now you can build your project. The catkin workspace is stored in the `ros` folder. So we must change to our parent directory and run a few commands:
 ```
 cd ..
