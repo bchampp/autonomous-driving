@@ -561,7 +561,6 @@ class LaneDetector:
 			log.exception('Exception occurred')
 			right_fit = self.fallback_right
 			
-
 		self.left_fit = left_fit
 		self.right_fit = right_fit
  				 
@@ -696,19 +695,14 @@ class LaneDetector:
 			isolated2 = self.isolate_lanes(frame)
 			self.isolated_lane_lines = cv2.addWeighted(isolated1, 1, isolated2, 1, 0)
 			self.cropped_lane_lines = self.region_selection(self.isolated_lane_lines)
+			
 			self.warped_frame = self.perspective_transform(self.cropped_lane_lines)
 			self.histogram = self.calculate_histogram(self.warped_frame)
-			left_fit, right_fit = self.get_lane_line_indices_sliding_windows(self.warped_frame)
-			self.get_lane_line_previous_window(left_fit, right_fit)
-
-			self.left_lane = LaneLine()
-			self.right_lane = LaneLine()
-			self.host_lane = Lane(self.left_lane, self.right_lane, True)
-			self.detected_lanes = [self.host_lane]
+			self.left_fit, self.right_fit = self.get_lane_line_indices_sliding_windows(self.warped_frame)
+			self.get_lane_line_previous_window(self.left_fit, self.right_fit)
 		except Exception as e:
 			log.exception('Exception occurred')
 			raise e
-			
 
 	def overlay_detections(self, frame):
 		"""
@@ -731,17 +725,22 @@ class LaneDetector:
 													self.right_fitx, self.ploty])))])
 		pts = np.hstack((pts_left, pts_right))
 				 
+		cv2.polylines(color_warp, np.int_([pts]), True, (0, 0, 255), 5)
+
 		# Draw lane on the warped blank image
 		cv2.fillPoly(color_warp, np.int_([pts]), (0, 255, 0))
-		cv2.imshow("Color warp", color_warp)
- 
+
 		# Warp the blank back to original image space using inverse perspective matrix
 		newwarp = cv2.warpPerspective(color_warp, self.inv_transformation_matrix, (self.width, self.height))
 
 		# Combine the result with the original image
 		result = cv2.addWeighted(overlay, 1, newwarp, 0.3, 0)
+		self.lanes_top_view = color_warp
+		self.lane_pts_top_view = pts
+		self.lanes_camera_view = result
 		return result           
 		
+
 	def print_detections(self):
 		for line in self.lane_lines:
 			print(f'Lane: {line.type}\tColor: {line.color}\tCurvature: {line.curvature}')

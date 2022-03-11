@@ -1,2 +1,0 @@
-data/signs-18.jpg
-data/signs-4.jpg
