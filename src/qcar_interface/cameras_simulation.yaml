@@ -1,0 +1,3 @@
+realsense_camera_topic: /camera/color/image_raw
+front_camera_topic: /camera/color/image_raw
+is_simulation: true
