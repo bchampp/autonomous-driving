@@ -21,11 +21,9 @@ def average(image, lines):
     left = []
     right = []
     for line in lines:
-        print(line)
         x1, y1, x2, y2 = line.reshape(4)
         #fit line to points, return slope and y-int
         parameters = np.polyfit((x1, x2), (y1, y2), 1)
-        print(parameters)
         slope = parameters[0]
         y_int = parameters[1]
         #lines on the right have positive slope, and lines on the left have neg slope
@@ -42,7 +40,6 @@ def average(image, lines):
     return np.array([left_line, right_line])
 
 def make_points(image, average):
-    print(average)
     slope, y_int = average
     y1 = image.shape[0]
     #how long we want our lines to be --> 3/5 the size of the image
@@ -77,15 +74,16 @@ class LaneDetectionNode(object):
         self.now = rospy.Time.now()
 
     def subscribers(self):
-        topic = rospy.get_param('/front_camera_topic')
+        try:
+            topic = rospy.get_param('/front_camera_topic')
+        except KeyError as e:
+            topic = "/qcar/csi_front"
         self._sub = rospy.Subscriber(topic, Image, self.img_callback, queue_size=1, buff_size=2**24)
 
     def publishers(self):
-        detection_topic = '/vision/lanes/detections'
         vis_camera_topic = '/vision/lanes/detections'
         vis_top_topic = '/vision/lanes/detections_top'
         vis_markers_topic = '/vision/lanes/markers'
-        self.detections_pub = rospy.Publisher(detection_topic, ObjectDetections2D, queue_size=10)
         self.visualize_camera_pub = rospy.Publisher(vis_camera_topic, Image, queue_size=1)
         self.visualize_top_pub = rospy.Publisher(vis_top_topic, Image, queue_size=1)
         self.visualize_markers = rospy.Publisher(vis_markers_topic, MarkerArray, queue_size=1)

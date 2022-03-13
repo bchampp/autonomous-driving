@@ -3,15 +3,15 @@
     <arg name="bag_file" default="all_cameras.bag" />
 	<rosparam file="$(find qcar_interface)/cameras.yaml" command="load" />
 
-    <node pkg="rosbag" type="play" name="player" output="screen" args="--clock -l $(arg bag_path)$(arg bag_file)"/>
+    <node pkg="rosbag" type="play" name="player" output="screen" args="--clock -l -q $(arg bag_path)$(arg bag_file) --topics /qcar/csi_front /camera/color/image_raw"/>
 
   <param name="robot_description" command="$(find xacro)/xacro '$(find qcar_gazebo)/urdf/qcar_model.xacro'"/>
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
     <node pkg="tf2_ros" type="static_transform_publisher" name="marker_tf_broadcaster" args="5 0 0 0 0 1 base lanes" />
-    <node name="object_detection_node" pkg="qcar_perception" type="object_detection.py" output="screen" />
-    <node name="lane_detection_node" pkg="qcar_perception" type="lane_detection.py" output="screen" />
+    <!-- <node name="object_detection_node" pkg="qcar_perception" type="object_detection.py" output="screen" /> -->
+    <!-- <node name="lane_detection_node" pkg="qcar_perception" type="lane_detection.py" output="screen" /> -->
 
     <!-- Show in Rviz   -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find qcar)/rviz/qcar.rviz"/>

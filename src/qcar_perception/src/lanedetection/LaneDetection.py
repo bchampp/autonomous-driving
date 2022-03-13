@@ -724,25 +724,73 @@ class LaneDetector:
 		pts_right = np.array([np.flipud(np.transpose(np.vstack([
 													self.right_fitx, self.ploty])))])
 		pts = np.hstack((pts_left, pts_right))
-				 
-		cv2.polylines(color_warp, np.int_([pts]), True, (0, 0, 255), 5)
+
+		# Find the values that define the line of best fit
+		# TODO: This can be improved with something like RANSAC
+		
+		# Take the points that define the line.
+		left_p1_x = int(self.left_fitx[0])
+		left_p1_y = 0
+		left_p2_x = int(self.left_fitx[-1])
+		left_p2_y = 480
+
+		right_p1_x = int(self.right_fitx[0])
+		right_p1_y = 0
+		right_p2_x = int(self.right_fitx[-1])
+		right_p2_y = 480
+
+		# Determine what points are the top and bottom (for midpoint calculation)
+		if (left_p1_y > left_p2_y):
+			left_top_x = left_p2_x
+			left_top_y = left_p2_y
+			left_bottom_x = left_p1_x
+			left_bottom_y = left_p1_y
+
+		else:
+			left_top_x = left_p1_x
+			left_top_y = left_p1_y
+			left_bottom_x = left_p2_x
+			left_bottom_y = left_p2_y
+
+		if (right_p1_y > right_p2_y):
+			right_top_x = right_p2_x
+			right_top_y = right_p2_y
+			right_bottom_x = right_p1_x
+			right_bottom_y = right_p1_y
+
+		else:
+			right_top_x = right_p1_x
+			right_top_y = right_p1_y
+			right_bottom_x = right_p2_x
+			right_bottom_y = right_p2_y
+
+		midpoint_top_x = int((right_top_x + left_top_x) / 2)
+		midpoint_top_y = left_top_y if left_top_y < right_top_y else right_top_y
+		midpoint_bottom_x = int(color_warp.shape[1] / 2)
+		midpoint_bottom_y = int(color_warp.shape[0])
 
 		# Draw lane on the warped blank image
 		cv2.fillPoly(color_warp, np.int_([pts]), (0, 255, 0))
+		cv2.polylines(color_warp, np.int_([pts]), True, (0, 0, 255), 10)
+
+		cv2.line(color_warp, (left_bottom_x, left_bottom_y), (left_top_x, left_top_y), (255, 0, 0), 10)
+		cv2.line(color_warp, (right_bottom_x, right_bottom_y), (right_top_x, right_top_y), (255, 0, 0), 10)
+		cv2.line(color_warp, (midpoint_bottom_x, midpoint_bottom_y), (midpoint_top_x, midpoint_top_y), (0, 0, 255), 10)
 
 		# Warp the blank back to original image space using inverse perspective matrix
 		newwarp = cv2.warpPerspective(color_warp, self.inv_transformation_matrix, (self.width, self.height))
 
+		# TODO: Remap the line points to the camera coordinate 
+
 		# Combine the result with the original image
-		result = cv2.addWeighted(overlay, 1, newwarp, 0.3, 0)
+		result = cv2.addWeighted(overlay, 1, newwarp, 0.6, 0)
 		self.lanes_top_view = color_warp
 		self.lane_pts_top_view = pts
 		self.lanes_camera_view = result
+		self.target_x = midpoint_top_x
 		return result           
 		
-
 	def print_detections(self):
 		for line in self.lane_lines:
 			print(f'Lane: {line.type}\tColor: {line.color}\tCurvature: {line.curvature}')
 			log.info(f'Lane: {line.type}\tColor: {line.color}\tCurvature: {line.curvature}')
-
