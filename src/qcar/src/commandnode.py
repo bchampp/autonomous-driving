@@ -3,18 +3,19 @@
 import threading
 import inputs
 import rospy
-import time 
+import time
 from std_msgs.msg import Float64
-from numpy import interp 
+from numpy import interp
+
 
 class ControllerCommandNode(object):
     def __init__(self):
         super().__init__()
-        
+
         gamepadThread = threading.Thread(target=self.monitorGamepad)
         gamepadThread.daemon = True
         gamepadThread.start()
-        
+
         self.commands = {
             'throttle': 0,
             'steering': 0
@@ -32,8 +33,15 @@ class ControllerCommandNode(object):
         while True:
             try:
                 for event in inputs.get_gamepad():
-                    if (event.code == 'ABS_RX'):
-                        self.commands['steering'] = event.state
+                    if event.code != 'SYN_REPORT':
+                        rospy.loginfo(f"**************EVENT CODE: {event.code}={event.state}***********")
+                    if event.code == 'ABS_HAT0X':
+                        if event.state == -1:
+                            self.commands['steering'] = 0
+                        elif (event.state == 1):
+                            self.commands['steering'] = 255
+                        # else:
+                        #     self.commands['steering'] = 126
                     if (event.code == 'ABS_RZ'):
                         self.commands['throttle'] = event.state
             except inputs.UnpluggedError:
@@ -45,6 +53,7 @@ class ControllerCommandNode(object):
         steering_remapped = interp(steering_adjusted, [-32256, 32256], [1, -1])
         self.throttle_pub.publish(Float64(throttle_remapped))
         self.steering_pub.publish(Float64(steering_remapped))
+
 
 if __name__ == '__main__':
     rospy.init_node('command_node')

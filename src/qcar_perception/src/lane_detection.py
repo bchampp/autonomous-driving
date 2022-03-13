@@ -11,10 +11,10 @@ from visualization_msgs.msg import MarkerArray, Marker
 from qcar_perception.msg import ObjectDetections2D, BoundingBox2D
 
 simulation_roi = np.float32([
-		(0, 400),  # Top-left corner
+		(0, 500),  # Top-left corner
 		(0, 720),  # Bottom-left corner            
 		(1280, 720), # Bottom-right corner
-		(1280, 400)   # Top-right corner
+		(1280, 500)   # Top-right corner
 	])
 
 class LaneDetectionNode(object):

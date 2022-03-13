@@ -10,3 +10,4 @@ src/vision_opencv
 perception.log
 *.bag
 frame**
+**/.idea/**

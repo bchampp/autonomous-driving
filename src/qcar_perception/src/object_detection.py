@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 from typing import List
 import rospy
 import cv2
@@ -19,7 +20,11 @@ class ObjectDetectionNode(object):
         self.now = rospy.Time.now()
 
     def subscribers(self):
-        topic = rospy.get_param('/realsense_camera_topic')
+        try:
+            topic = rospy.get_param('/realsense_camera_topic')
+        except KeyError as e:
+            topic = "/camera/color/image_raw"
+        print(topic)
         self._sub = rospy.Subscriber(topic, Image, self.img_callback, queue_size=1, buff_size=2**24)
 
     def publishers(self):

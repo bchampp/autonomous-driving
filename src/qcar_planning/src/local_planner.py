@@ -28,7 +28,7 @@ class LocalPlanningNode(object):
 
     def steering_callback(self, data: Float64):
         data = data.data
-        self.steering = interp(data, [-200, 200], [-1, 1])
+        self.steering = interp(data, [-200, 200], [-0.25, 0.25])
         self.throttle_pub.publish(Float64(self.throttle))        
         self.steering_pub.publish(Float64(self.steering))
 
