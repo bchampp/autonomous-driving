@@ -11,6 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   BoundingBox2D.msg
+  BoundingBox.msg
+  BoundingBoxes.msg
   ObjectDetections2D.msg
 )
 

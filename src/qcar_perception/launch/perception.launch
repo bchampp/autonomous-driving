@@ -1,4 +1,3 @@
-<?xml version="1.0"?>
 <launch>
   <param name="robot_description" command="$(find xacro)/xacro.py '$(find qcar_gazebo)/urdf/qcar_model.xacro'"/>
 
@@ -11,9 +10,9 @@
     <!-- Intel RealSense -->
   <node name="rgbd_node" pkg="qcar" type="rgbdnode.py" output="screen" />
 
-    <node name="object_detector" pkg="qcar_perception" type="object_detection.py" output="screen" />
-    <node name="lane_detector" pkg="qcar_perception" type="lane_detection.py" output="screen" />
+  <include file="$(find qcar_perception)/launch/object_detection.launch" />
+  <include file="$(find qcar_perception)/launch/lane_detection.launch" />
+
   <!-- Show in Rviz   -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find qcar_perception)/rviz/perception.rviz"/>
-
 </launch>

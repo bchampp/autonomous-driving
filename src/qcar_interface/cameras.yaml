@@ -1,2 +1,3 @@
 realsense_camera_topic: /camera/color/
 front_camera_topic: /qcar/csi_front
+is_simulation: false

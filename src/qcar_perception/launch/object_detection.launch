@@ -1,9 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <launch>
-    <arg name="bag_path" default="$(find qcar_perception)/bags/" />
-    <arg name="bag_file" default="dataset1.bag" />
-	<rosparam file="$(find qcar_interface)/cameras.yaml" command="load" />
+    <!-- Camera topic and weights, config and classes files -->
+    <arg name="image_topic"	                default="/camera/color/image_raw"/>
+    <arg name="weights_path"	            default="$(find qcar_perception)/weights/best.pt"/>
 
-    <node pkg="rosbag" type="play" name="player" output="screen" args="--clock -l $(arg bag_path)$(arg bag_file)"/>
-    <node name="object_detection_node" pkg="qcar_perception" type="object_detection.py" output="screen" />
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find qcar_perception)/rviz/perception.rviz" />
+    <!-- Published topics -->
+    <arg name="publish_image"	            default="true"/>
+    <arg name="detected_objects_topic"      default="detected_objects_in_image"/>
+    <arg name="detections_image_topic"      default="detections_image_topic"/>
+
+    <!-- Detection confidence -->
+    <arg name="confidence"                  default="0.25"/>
+
+    <!-- Node -->
+    <node name="detector" pkg="qcar_perception" type="object_detection.py" output="screen" respawn="true">
+        <param name="image_topic"               value="$(arg image_topic)"/>
+        <param name="frame_id"               		value="camera"/>
+        <param name="weights_path"              value="$(arg weights_path)"/>
+        <param name="publish_image"             value="$(arg publish_image)"/>
+        <param name="detected_objects_topic"    value="$(arg detected_objects_topic)"/>
+        <param name="detections_image_topic"    value="$(arg detections_image_topic)"/>
+        <param name="confidence"                value="$(arg confidence)"/>
+    </node>
 </launch>

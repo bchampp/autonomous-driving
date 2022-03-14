@@ -17,6 +17,13 @@ simulation_roi = np.float32([
 		(1280, 500)   # Top-right corner
 	])
 
+real_roi = np.float32([
+    (0, 250),  # Top-left corner
+    (0, 480),  # Bottom-left corner            
+    (640, 480), # Bottom-right corner
+    (640, 250)   # Top-right corner
+])
+
 class LaneDetectionNode(object):
     def __init__(self):
         super().__init__()
@@ -25,6 +32,9 @@ class LaneDetectionNode(object):
         if (rospy.get_param('is_simulation')):
             self.detector.set_constants(1280, 720)
             self.detector.set_roi(simulation_roi)
+        else:
+            self.detector.set_constants(640, 480)
+            self.detector.set_roi(real_roi)
         rospy.loginfo("Initialized Lane Detector")
         self.subscribers()
         self.publishers()
@@ -74,9 +84,12 @@ class LaneDetectionNode(object):
     def img_callback(self, img_msg):
         image_np = self._cv_bridge.imgmsg_to_cv2(img_msg, 'bgr8')
 
+        # TODO: Dynamically set the ROI
         try:
             self.detector.detect_lanes(image_np)
             camera_overlay = self.detector.overlay_detections(image_np)
+            self.detector.plot_roi(image_np)
+            # cv2.waitKey(0)
             top_overlay = self.detector.lanes_top_view
             self.visualize_camera_pub.publish(self._cv_bridge.cv2_to_imgmsg(camera_overlay, 'bgr8'))
             self.visualize_top_pub.publish(self._cv_bridge.cv2_to_imgmsg(top_overlay, 'bgr8'))
