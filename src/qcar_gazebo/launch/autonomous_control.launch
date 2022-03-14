@@ -1,0 +1,33 @@
+<launch>	  
+	<!-- Send the control parameters to the parameter server -->
+	<rosparam file="$(find qcar_control)/config/qcar_control.yaml" command="load"/>
+	<rosparam file="$(find qcar_interface)/cameras_simulation.yaml" command="load" />
+
+	<!-- Launch the Gazebo World -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">	    
+		<arg name="world_name" value="$(find qcar_gazebo)/worlds/qcar.world"/>	    
+		<arg name="gui" value="true"/>	
+		<arg name="verbose" value="true" />  
+	</include>	
+
+
+  <include file="$(find qcar_gazebo)/launch/spawn_qcar.launch" />
+
+	<!-- Spawn the controller -->
+	<node 
+		name="controller_spawner" 
+		pkg="controller_manager" 
+		type="spawner" 
+		respawn="false"
+		output="screen" 
+		ns="/qcar" 
+		args="rr_controller rl_controller base_fr_controller base_fl_controller joint_state_controller"
+		/>
+
+	<node name="control_node" pkg="qcar" type="controlnode.py" output="screen"/>
+  <include file="$(find qcar_perception)/launch/object_detection.launch" />
+  <include file="$(find qcar_perception)/launch/lane_detection.launch" />
+  
+	<!-- Launch rviz visualization -->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find qcar)/rviz/qcar.rviz" required="true"/>
+</launch>

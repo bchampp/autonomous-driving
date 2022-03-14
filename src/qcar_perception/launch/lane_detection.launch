@@ -1,0 +1,3 @@
+<launch>
+  <node name="lane_detector" pkg="qcar_perception" type="lane_detection.py" output="screen" />
+</launch>

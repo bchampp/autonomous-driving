@@ -1,0 +1,24 @@
+<launch>
+    <arg name="bag_path" default="$(find qcar)/bags/" />
+    <arg name="bag_file" default="test.bag" />
+
+    <node pkg="rosbag" type="play" name="player" output="screen" args="--clock -l -q $(arg bag_path)$(arg bag_file) --topics /qcar/csi_front /camera/color/image_raw"/>
+    
+    <!-- Load parameters -->
+    <rosparam file="$(find qcar_interface)/cameras.yaml" command="load" />
+    <param name="robot_description" command="$(find xacro)/xacro '$(find qcar_gazebo)/urdf/qcar_model.xacro'"/>
+
+    <!-- Joint State Publisher Nodes -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+    <!-- Perception Launches -->
+    <include file="$(find qcar_perception)/launch/object_detection.launch" />
+    <include file="$(find qcar_perception)/launch/lane_detection.launch" />
+
+    <!-- Mapping Launches -->
+    <!-- <include file="$(find qcar_mapping)/launch/rtab_launch.launch" /> -->
+
+    <!-- Show in Rviz   -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find qcar)/rviz/qcar.rviz"/>
+</launch>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <!-- Camera topic and weights, config and classes files -->
+    <arg name="image_topic"	                default="/camera/color/image_raw"/>
+    <arg name="weights_path"	            default="$(find qcar_perception)/weights/best.pt"/>
+
+    <!-- Published topics -->
+    <arg name="publish_image"	            default="true"/>
+    <arg name="detected_objects_topic"      default="detected_objects_in_image"/>
+    <arg name="detections_image_topic"      default="detections_image_topic"/>
+
+    <!-- Detection confidence -->
+    <arg name="confidence"                  default="0.25"/>
+
+    <!-- Node -->
+    <node name="detector" pkg="qcar_perception" type="object_detection.py" output="screen" respawn="true">
+        <param name="image_topic"               value="$(arg image_topic)"/>
+        <param name="frame_id"               		value="camera"/>
+        <param name="weights_path"              value="$(arg weights_path)"/>
+        <param name="publish_image"             value="$(arg publish_image)"/>
+        <param name="detected_objects_topic"    value="$(arg detected_objects_topic)"/>
+        <param name="detections_image_topic"    value="$(arg detections_image_topic)"/>
+        <param name="confidence"                value="$(arg confidence)"/>
+    </node>
+</launch>
