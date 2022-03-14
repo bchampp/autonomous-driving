@@ -1,107 +1,119 @@
-# ROS Information
+# Autonomous Driving using SLAM
 
-Here you will find all the information about the ROS packages, nodes and topics that were used in this project.
+This project implements a prototype of an autonomous vehicle on the Quanser QCar.
 
-## Packages
+<p align="center">
+    <img width="300px" src="./doc/img/qcar.png" />
+</p>
 
-### QCar
+## Goals
+The main goal of this project is to learn about the different components that make up a self driving car stack. This project explores different approaches to perception, mapping, planning and control systems. 
 
-The purpose of the `qcar` package is to implement the nodes required for the sensors and actuators of the car.
+The modules implemented in this project are:
+1. Hardware interface with camera, depth, imu, and motor control.
+2. Image processing pipeline to calibrate and synchronize data.
+2. Perception system including lane detection and object detection.
+3. Planning system to control the cars behaviour.
+4. Control system to effectively move the car.
+5. Simulation using CARLA and Gazebo.
 
-#### Cameras
+## Getting Started
+This project is implemented using the Robotic Operating System (ROS). 
 
-Nodes:
+After cloning this repo, and before you build it using catkin_make, you must first install the vision_opencv package that is approriate for your ROS version.
 
-- `rgbdnode` - This is the Intel Realsense camera.
-- `csinode` - This is the fisheye cameras mounted on every side of the car.
+### Downloading vision_opencv for ROS Noetic
+If you are using ROS Noetic, you can download the appropriate library by going to this git repo (ensure you are on the Noetic branch): https://github.com/ros-perception/vision_opencv/tree/noetic
+```
+cd ros/src
+git clone -b noetic git@github.com:ros-perception/vision_opencv.git
+```
+### Downloading vision_opencv for ROS Melodic and on the QCar
+If you are installing on the Quanser Qcar, or on any machine running ROS Melodic, you can grab the appropriate vision_openCV library from this repo https://github.com/queens-autodrive/vision-opencv
+```
+cd ros/src
+git clone git@github.com:queens-autodrive/vision-opencv.git
+```
+## Building your Project
+Now you can build your project. The catkin workspace is stored in the `ros` folder. So we must change to our parent directory and run a few commands:
+```
+cd ..
+source /opt/ros/<ROS_Version>/setup.bash # The QCar uses melodic, everywhere else we use noetic
+catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
+source devel/setup.bash
+```
 
-Publishes:
+## Data Collection and Playback
+Launch files have been included to easily collect and replay data against the developed system. These files are included in the `qcar` package as `collect.launch` and `playback.launch`. The collect script will collect data from all relevant sensors for the system using the controller as input. The playback script will replay a rosbag and run all the systems against the recorded data.
 
-- `/qcar/realsense_color`
-- `/qcar/realsense_depth`
-- `/qcar/csi_front`
+To collect data:
+```
+roslaunch qcar collect.launch
+```
 
-#### Car sensors
+To replay data:
+```
+roslaunch qcar playback.launch
+```
 
-Node:
+## Hardware Interface
+The hardware interface contains nodes to interact with the hardware available on the car. This is implemented in the `qcar` package in the ros workspace. 
 
-- `qcarnode` - This is the main node of the car for actuation.
+The following nodes are implemented:
+- `commandnode.py` - This is an interface to interact with a Logitech F710 controller
+- `csinode.py` - This is an interface to interact with the fisheye cameras on the car
+- `lidarnode.py` - This is an interface to interact with the RP Lidar.
+- `rgbdnode.py` - This is an interface to interact with the Intel Realsense D435 camera
+- `qcarnode.py` - This is an interface to interact with the motors on the car
 
-Publishes:
+Launch files have been included in the qcar package to connect to these sensors. More detail can be found in the package documentation. 
 
-- `/qcar/imu`
-- `/qcar/velocity`
+To run the vehicle and sensors manually using the controller:
+```
+roslaunch qcar manual_control.launch
+```
+<b>Note:</b> You may get an error running this on a fresh QCar setup as the QCar libraries require root permissions to actuate the hardware controllers. In this case, update the sudoers file and add the following line at the end: 
+```
+nvidia ALL=(ALL) NOPASSWD: ALL
+```
+This will allow ros to execute sudo without requiring a password. 
 
-Subscribes:
+## Perception
+The perception interface is implemented in the `qcar_perception` package.
 
-- `/control`
+The following nodes are implemented: 
+- `object_detection.py` - This node detects objects using a YOLOv3 neural network 
+- `lane_detection.py` - This node detects lane lines using computer vision techniques
 
-### Perception
+## Planning
+The planning system is implemented in the `qcar_planning` package.
 
-The `perception` package performs various computer vision tasks from incoming camera data. This data is then published to appropriate topics to control the cars action.
 
-#### Object Detection
+## Simulation
+### Gazebo
+Gazebo is an open source simulation platform developed by the same team as ROS. The team used Gazebo to model accurate environments to test the autonomous driving software in. This was used heavily for developing how the perception and planning systems interact. 
 
-Nodes:
+<p align="center">
+    <img width="800px" src="./doc/img/gazebo.png" />
+</p>
 
-- `objectdetection` - This node implements an object detection system.
+More specific information for running the gazebo simulation can be found in `qcar_gazebo`.
 
-Subscribes:
+To run the simulation with all systems running:
+```
+roslaunch qcar_gazebo qcar_world.launch
+```
 
-- `/qcar/realsense_color`
-- `/qcar/realsense_depth`
+To run the simulation with only perception systems running:
+```
+roslaunch qcar_gazebo qcar_perception.launch
+```
 
-Publishes:
+## CARLA Integration
+CARLA is an open source autonomous driving simulator built on the Unreal Engine. CARLA was used to test the accuracy of the perception systems implemented, and extend the project beyond the QCar. 
 
-- `/perception/object_detections`
-- `/perception/visualize_objects`
+To run the CARLA simulation with the perception systems running:
+```
+roslaunch qcar_carla qcar_perception
+```
 
-#### Lane Detection
-
-Nodes:
-
-- `lanedetection` - This node implements a lane detection system.
-
-Subscribes:
-
-- `/qcar/csi_front`
-
-Publishes:
-
-- `/perception/lane_detections`
-- `/perception/visualize_lanes`
-
-### Planning
-
-The planning package is used to implement a basic planning system for the cars movement.
-
-Nodes:
-
-- `planningnode` - This node implements a basic planning system for the car actuation
-
-Subscribes:
-
-- `/perception/object_detections`
-- `/perception/lane_detections`
-
-Publishes:
-
-- `/qcar/motors`
-
-### Simulation
-
-The purpose of the `simulation` package is to connect the system to the CARLA and Simulink simulation platforms.
-
-For more information on the simulation package, refer to the documentation here.
-
-Nodes:
-
-- `carla_client`
-- `simulated_camera`
-
-Launch Files:
-
-- `carla_client.launch`
-- `carla_client_rviz.launch`
-- `carla_client_rqt.launch`
-- `simulated_camera.launch`
