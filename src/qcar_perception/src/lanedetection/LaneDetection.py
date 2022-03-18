@@ -3,8 +3,6 @@ import numpy as np
 import traceback
 from dataclasses import dataclass, field
 from typing import List
-from perception import log
-
 
 # Set in the form (width, height)
 default_roi = np.float32([
@@ -193,7 +191,6 @@ class LaneDetector:
 							i.e. number of rows and columns
 		:return: Binary (black and white) 2D mask image
 		"""
-		log.info(f'Implement Sobel edge detection along X and Y')
 		# Get the magnitude of the edges that are vertically aligned on the image
 		sobelx = np.absolute(self.sobel(image, orient='x', sobel_kernel=sobel_kernel))
 				
@@ -216,7 +213,6 @@ class LaneDetector:
 		:param image: The raw image input to the pipeline.
 		:return: A binary image with the lane lines isolated.
 		"""
-		log.info('Isolate Lane Lines for the input image')
 		# White Color Mask
 		lower = np.uint8([200, 200, 200])
 		upper = np.uint8([255, 255, 255])
@@ -241,7 +237,6 @@ class LaneDetector:
 
 		:param image: The input image from the pipeline.
 		"""
-		log.info('Select region of interest on input image')
 		mask = np.zeros_like(image)   
 		# Defining a 3 channel or 1 channel color to fill the mask with depending on the input image
 		if len(image.shape) > 2:
@@ -267,7 +262,6 @@ class LaneDetector:
 		:param: print_to_terminal Display data to console if True       
 		:return: Offset from the center of the lane
 		"""
-		log.info('Calculate position of car compared to center of lane')
 		# Assume the camera is centered in the image.
 		# Get position of car in centimeters
 		car_location = self.width / 2
@@ -287,7 +281,6 @@ class LaneDetector:
 		# Display on terminal window and log
 		if print_to_terminal == True:
 			print(str(center_offset) + 'cm')
-		log.info(f'Center Offset: {center_offset} cm')
 
 		self.center_offset = center_offset
 		 
@@ -300,7 +293,6 @@ class LaneDetector:
 		:param: print_to_terminal Display data to console if True
 		:return: Radii of curvature
 		"""
-		log.info('Calculate Road Curvature')
 		# Set the y-value where we want to calculate the road curvature.
 		# Select the maximum y-value, which is the bottom of the frame.
 		y_eval = np.max(self.ploty)    
@@ -321,7 +313,6 @@ class LaneDetector:
 		# Display on terminal window and log
 		if print_to_terminal == True:
 			print(left_curvem, 'm', right_curvem, 'm')
-		log.info(f'Left Curve: {left_curvem} m Right Curve: {right_curvem} m')	
 
 		self.left_curvem = left_curvem
 		self.right_curvem = right_curvem
@@ -335,7 +326,6 @@ class LaneDetector:
 		:param frame: The warped image
 		:param plot: Create a plot if True
 		"""
-		log.info('Calculate Histogram')
 						 
 		# Generate the histogram
 		self.histogram = np.sum(frame[int(
@@ -349,8 +339,6 @@ class LaneDetector:
 		:param: plot Display the plot if True
 		:return: Image with lane lines and curvature
 		"""
-		log.info('Display Curvature and Offset')
-
 		image_copy = frame.copy()
  
 		# cv2.putText(image_copy,'Curve Radius: '+str((
@@ -376,7 +364,6 @@ class LaneDetector:
 		:param: right_fit Polynomial function of the right lane line
 		:param: plot To display an image or not
 		"""
-		log.info('Get lane line from previous sliding window')
 		# margin is a sliding window parameter
 		margin = self.margin
  
@@ -413,14 +400,12 @@ class LaneDetector:
 		try:
 			left_fit = np.polyfit(lefty, leftx, 2)
 		except TypeError:
-			log.exception('Exception occurred')
 			left_fit = np.array([0,0,0])
 			
 
 		try:
 			right_fit = np.polyfit(righty, rightx, 2) 
 		except TypeError:
-			log.exception('Exception occurred')
 			right_fit = self.fallback_right
 			
 				 
@@ -474,7 +459,6 @@ class LaneDetector:
 		:param: plot Show plot or not
 		:return: Best fit lines for the left and right lines of the current lane 
 		"""
-		log.info('Get indicies of lane line pixels')
 		# Sliding window width is +/- margin
 		margin = self.margin
  
@@ -551,14 +535,12 @@ class LaneDetector:
 		try:
 			left_fit = np.polyfit(lefty, leftx, 2)
 		except TypeError:
-			log.exception('Exception occurred')
 			left_fit = np.array([0,0,0])
 			
 
 		try:
 			right_fit = np.polyfit(righty, rightx, 2) 
 		except TypeError:
-			log.exception('Exception occurred')
 			right_fit = self.fallback_right
 			
 		self.left_fit = left_fit
@@ -573,7 +555,6 @@ class LaneDetector:
 		:param frame: The camera frame that contains the lanes we want to detect
 		:return: Binary (i.e. black and white) image containing the lane lines.
 		"""
-		log.info('Isolate lane lines')
 		# Convert the video frame from BGR (blue, green, red) 
 		# color space to HLS (hue, saturation, lightness).
 		hls = cv2.cvtColor(frame, cv2.COLOR_BGR2HLS)
@@ -632,7 +613,6 @@ class LaneDetector:
 		Return the x coordinate of the left histogram peak and the right histogram
 		peak.
 		"""
-		log.info('Left and Right Peak of Histogram')
 		midpoint = int(self.histogram.shape[0]/2)
 		leftx_base = np.argmax(self.histogram[:midpoint])
 		rightx_base = np.argmax(self.histogram[midpoint:]) + midpoint
@@ -647,7 +627,6 @@ class LaneDetector:
 		:param: plot Plot the warped image if True
 		:return: Bird's eye view of the current lane
 		"""
-		log.info('Perform Perspective transform')
 		# Calculate the transformation matrix
 		self.transformation_matrix = cv2.getPerspectiveTransform(
 			self.roi_points, self.desired_roi_points)
@@ -675,7 +654,6 @@ class LaneDetector:
 		:param: frame The current image frame
 		:param: plot Plot the roi image if True
 		"""
-		log.info('Show ROI on image')
 		overlay = frame.copy()
 		# Overlay trapezoid on the frame
 		this_image = cv2.polylines(overlay, np.int32([
@@ -689,7 +667,6 @@ class LaneDetector:
 		
 	def detect_lanes(self, frame):
 		""" Detect Lane Lines in an image. """
-		log.info('Detect Lane Lines in frame')
 		try:
 			isolated1 = self.get_line_markings(frame)
 			isolated2 = self.isolate_lanes(frame)
@@ -701,7 +678,6 @@ class LaneDetector:
 			self.left_fit, self.right_fit = self.get_lane_line_indices_sliding_windows(self.warped_frame)
 			self.get_lane_line_previous_window(self.left_fit, self.right_fit)
 		except Exception as e:
-			log.exception('Exception occurred')
 			raise e
 
 	def overlay_detections(self, frame):
@@ -710,8 +686,6 @@ class LaneDetector:
 		:param: Plot the lane lines if True
 		:return: Lane with overlay
 		"""
-		log.info('Overlay Lane Lines on original frame')
-
 		overlay = frame.copy()
 
 		# Generate an image to draw the lane lines on 
@@ -793,4 +767,3 @@ class LaneDetector:
 	def print_detections(self):
 		for line in self.lane_lines:
 			print(f'Lane: {line.type}\tColor: {line.color}\tCurvature: {line.curvature}')
-			log.info(f'Lane: {line.type}\tColor: {line.color}\tCurvature: {line.curvature}')

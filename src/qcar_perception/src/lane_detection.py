@@ -18,10 +18,10 @@ simulation_roi = np.float32([
 	])
 
 real_roi = np.float32([
-    (0, 250),  # Top-left corner
-    (0, 480),  # Bottom-left corner            
-    (640, 480), # Bottom-right corner
-    (640, 250)   # Top-right corner
+    (200, 250),  # Top-left corner
+    (-600, 480),  # Bottom-left corner            
+    (1240, 480), # Bottom-right corner
+    (440, 250)   # Top-right corner
 ])
 
 class LaneDetectionNode(object):
@@ -89,7 +89,7 @@ class LaneDetectionNode(object):
             self.detector.detect_lanes(image_np)
             camera_overlay = self.detector.overlay_detections(image_np)
             self.detector.plot_roi(image_np)
-            # cv2.waitKey(0)
+            cv2.waitKey(1)
             top_overlay = self.detector.lanes_top_view
             self.visualize_camera_pub.publish(self._cv_bridge.cv2_to_imgmsg(camera_overlay, 'bgr8'))
             self.visualize_top_pub.publish(self._cv_bridge.cv2_to_imgmsg(top_overlay, 'bgr8'))

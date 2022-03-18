@@ -47,7 +47,7 @@
     <arg name="localization"            value="$(arg localization)"/>
     <arg name="gui_cfg"                 value="$(arg rtabmapviz_cfg)" />
     <arg name="rviz_cfg"                value="$(arg rviz_cfg)" />
-  
+    <arg name="queue_size"              value="10" />
     <arg name="frame_id"                value="$(arg frame_id)"/>
     <arg name="namespace"               value="$(arg namespace)"/>
     <arg name="database_path"           value="$(arg database_path)"/>
