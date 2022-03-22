@@ -28,8 +28,8 @@
 	<node name="controller_node" pkg="qcar" type="commandnode.py" output="screen"/>
 	<!-- <node name="planning_node" pkg="qcar_planning" type="local_planner.py" output="screen"/> -->
   <include file="$(find qcar_perception)/launch/object_detection.launch" />
-  <!-- <include file="$(find qcar_perception)/launch/lane_detection.launch" /> -->
+  <include file="$(find qcar_perception)/launch/lane_detection.launch" />
   
 	<!-- Launch rviz visualization -->
-	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find qcar)/rviz/qcar.rviz" required="true"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find qcar_gazebo)/rviz/qcar.rviz" required="true"/>
 </launch>

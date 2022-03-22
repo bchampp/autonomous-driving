@@ -75,7 +75,7 @@ class LaneDetector:
 		self.width = width
 		self.height = height
 
-		self.padding = int(0.1 * width) # padding from side of the image in pixels
+		self.padding = int(0 * width) # padding from side of the image in pixels
 
 		self.desired_roi_points = np.float32([
 			[self.padding, 0],              # Top-left corner
@@ -664,7 +664,6 @@ class LaneDetector:
 
 		# Display the image
 		cv2.imshow('ROI Image', roi_image)
-		cv2.imshow('Desired ROI Image', desired_roi_image)
 		 
 	def get_host_lane(self, frame):
 		return self.host_lane
@@ -680,6 +679,7 @@ class LaneDetector:
 			self.warped_frame = self.perspective_transform(self.cropped_lane_lines)
 			self.histogram = self.calculate_histogram(self.warped_frame)
 			self.left_fit, self.right_fit = self.get_lane_line_indices_sliding_windows(self.warped_frame)
+			self.calculate_car_position(False)
 			self.get_lane_line_previous_window(self.left_fit, self.right_fit)
 		except Exception as e:
 			raise e
@@ -696,10 +696,10 @@ class LaneDetector:
 		warp_zero = np.zeros(self.warped_frame.shape).astype(np.uint8)
 		color_warp = np.dstack((warp_zero, warp_zero, warp_zero))       
 				 
-		print("Left", end="")
-		print(self.left_fit)
-		print("Right", end="")
-		print(self.right_fit)
+		# print("Left", end="")
+		# print(self.left_fit)
+		# print("Right", end="")
+		# print(self.right_fit)
 
 		# Recast the x and y points into usable format for cv2.fillPoly()
 		pts_left = np.array([np.transpose(np.vstack([
@@ -763,8 +763,8 @@ class LaneDetector:
 
 		# Draw lane on the warped blank image
 		cv2.fillPoly(color_warp, np.int_([pts]), (0, 255, 0))
-		cv2.polylines(color_warp, np.int_([pts]), True, (0, 0, 255), 10)
-		cv2.polylines(color_warp, np.int_([midpoints]), False, (0, 255, 255), 10)
+		cv2.polylines(color_warp, np.int_([pts]), True, (0, 0, 255), 3)
+		cv2.polylines(color_warp, np.int_([midpoints]), False, (0, 255, 255), 3)
 
 		# cv2.line(color_warp, (left_bottom_x, left_bottom_y), (left_top_x, left_top_y), (255, 0, 0), 10)
 		# cv2.line(color_warp, (right_bottom_x, right_bottom_y), (right_top_x, right_top_y), (255, 0, 0), 10)
@@ -777,8 +777,8 @@ class LaneDetector:
 
 		# Combine the result with the original image
 		result = cv2.addWeighted(overlay, 1, newwarp, 0.6, 0)
-		cv2.imshow("Test", color_warp)
-		cv2.waitKey(1)
+		# cv2.imshow("Test", color_warp)
+		# cv2.waitKey(1)
 		self.lanes_top_view = color_warp
 		self.lane_pts_top_view = pts
 		self.lanes_camera_view = result

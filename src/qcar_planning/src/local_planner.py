@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import threading
 from typing import List
 import rospy
 import cv2
@@ -8,8 +9,10 @@ from std_msgs.msg import Float64, Float64MultiArray, Bool
 from visualization_msgs.msg import MarkerArray, Marker
 from qcar_perception.msg import ObjectDetections2D, BoundingBox2D
 from numpy import interp 
+from scipy.stats import linregress
 
-center_point = int(1280 / 2) # where is the camera center w.r.t the frame?
+center_point = int(640 / 2) # where is the camera center w.r.t the frame?
+method = 1 # set to 2 for slope following instead. 
 
 class LocalPlanningNode(object):
     def __init__(self):
@@ -17,7 +20,7 @@ class LocalPlanningNode(object):
         rospy.loginfo("Starting Planning System")
         self.subscribers()
         self.now = rospy.Time.now()
-        self.throttle = 10
+        self.throttle = 9
         self.steering = 0
         self.autonomous = True
         self.offset_history = []
@@ -25,32 +28,48 @@ class LocalPlanningNode(object):
         self.elasped_time = 0
         self.turn_time = rospy.get_rostime()
 
+        self.commands = {
+            'throttle': self.throttle,
+            'steering': self.steering,
+        }
+
         self.throttle_pub = rospy.Publisher('/qcar/velocity_target', Float64, queue_size=100)
         self.steering_pub = rospy.Publisher('/qcar/steering_target', Float64, queue_size=100)
 
+        rate = rospy.Rate(10)
+        while not rospy.is_shutdown():
+            if self.autonomous:
+                self.throttle_pub.publish(Float64(self.throttle))        
+                self.steering_pub.publish(Float64(self.steering))
+            rate.sleep()
+
     def subscribers(self):
-        topic = '/planning/waypoints'
-        self._sub = rospy.Subscriber(topic, Float64MultiArray, self.waypoints_callback, queue_size=1, buff_size=2**24)
+        waypoints_topic = '/planning/waypoints'
+        center_topic = '/planning/center_offset'
+        self._sub = rospy.Subscriber(waypoints_topic, Float64MultiArray, self.waypoints_callback, queue_size=1, buff_size=2**24)
         self.autonomous_pub = rospy.Subscriber('/qcar/autonomous_enabled', Bool, self.autonomous_callback)
 
     def waypoints_callback(self, data):
         waypoints = data.data
-        next_waypoint = np.mean(waypoints[0:200]) # take the average of the next 100 waypoints
-        offset = center_point - next_waypoint
-        print(offset)
 
-        # irrelevant offsets just drive straight
-        if abs(offset) < 20:
-            self.steering = interp(offset, [-100, 100], [-1, 1])
+        if method == 1:
+            next_waypoint = np.mean(waypoints[0:250]) # take the average of the next 100 waypoints
+            offset = center_point - next_waypoint
 
-        else:
-            self.steering = interp(offset, [-20, 20], [-1, 1])
+            # if the offset is really small, just go straight
+            if (offset < 5):
+                self.steering = 0
 
-        print(self.steering)
+            else:
+                self.steering = interp(offset, [-50, 50], [-1, 1])
+            print(f'Offset: {offset}, Steer: {self.steering}')
 
-        if self.autonomous:
-            self.throttle_pub.publish(Float64(self.throttle))        
-            self.steering_pub.publish(Float64(self.steering))
+        # Method 2 - Calculate slope of the waypoints curve and become parallel to it. 
+        if method == 2:
+            result = linregress([i for i in range(0, len(waypoints))], waypoints)
+            offset = result.slope * 1000
+            self.steering = interp(offset, [-800, 800], [1, -1])
+            print(f'Slope: {offset}, Steer: {self.steering}')
 
     def waypoints_callback_old(self, data: Float64MultiArray):
         data = data.data

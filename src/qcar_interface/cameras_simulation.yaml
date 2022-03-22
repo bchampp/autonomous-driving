@@ -1,3 +1,4 @@
 realsense_camera_topic: /camera/color/image_raw
-front_camera_topic: /camera/color/image_raw
+front_camera_topic: /qcar/csi_front/image_raw
 is_simulation: true
+lane_detection_realsense: false
