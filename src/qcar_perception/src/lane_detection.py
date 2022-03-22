@@ -6,7 +6,7 @@ import numpy as np
 from cv_bridge import CvBridge, CvBridgeError
 from lanedetection import LaneDetector
 from sensor_msgs.msg import Image
-from std_msgs.msg import Float64
+from std_msgs.msg import Float64MultiArray
 from visualization_msgs.msg import MarkerArray, Marker
 from qcar_perception.msg import ObjectDetections2D, BoundingBox2D
 
@@ -52,11 +52,11 @@ class LaneDetectionNode(object):
         vis_camera_topic = '/vision/lanes/detections'
         vis_top_topic = '/vision/lanes/detections_top'
         vis_markers_topic = '/vision/lanes/markers'
-        vis_planning_topic = '/planning/steering_delta'
+        vis_planning_topic = '/planning/waypoints'
         self.visualize_camera_pub = rospy.Publisher(vis_camera_topic, Image, queue_size=1)
         self.visualize_top_pub = rospy.Publisher(vis_top_topic, Image, queue_size=1)
         self.visualize_markers = rospy.Publisher(vis_markers_topic, MarkerArray, queue_size=1)
-        self.planning_pub = rospy.Publisher(vis_planning_topic, Float64, queue_size=1)
+        self.planning_pub = rospy.Publisher(vis_planning_topic, Float64MultiArray, queue_size=1)
 
     def create_markers(self, pts):
         marker_array = MarkerArray()
@@ -88,13 +88,15 @@ class LaneDetectionNode(object):
         try:
             self.detector.detect_lanes(image_np)
             camera_overlay = self.detector.overlay_detections(image_np)
-            self.detector.plot_roi(image_np)
-            cv2.waitKey(1)
+            # self.detector.plot_roi(image_np)
+            # cv2.waitKey(1)
             top_overlay = self.detector.lanes_top_view
             self.visualize_camera_pub.publish(self._cv_bridge.cv2_to_imgmsg(camera_overlay, 'bgr8'))
             self.visualize_top_pub.publish(self._cv_bridge.cv2_to_imgmsg(top_overlay, 'bgr8'))
             self.visualize_markers.publish(self.create_markers(self.detector.lane_pts_top_view))
-            self.planning_pub.publish((image_np.shape[1] / 2) - self.detector.target_x)
+            waypoints_data = Float64MultiArray()
+            waypoints_data.data = self.detector.waypoints
+            self.planning_pub.publish(waypoints_data)
         except Exception as e:
             rospy.logerr(e)
 
