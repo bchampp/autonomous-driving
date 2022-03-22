@@ -25,13 +25,13 @@ After cloning this repo, and before you build it using catkin_make, you must fir
 ### Downloading vision_opencv for ROS Noetic
 If you are using ROS Noetic, you can download the appropriate library by going to this git repo (ensure you are on the Noetic branch): https://github.com/ros-perception/vision_opencv/tree/noetic
 ```
-cd ros/src
+cd src
 git clone -b noetic git@github.com:ros-perception/vision_opencv.git
 ```
 ### Downloading vision_opencv for ROS Melodic and on the QCar
 If you are installing on the Quanser Qcar, or on any machine running ROS Melodic, you can grab the appropriate vision_openCV library from this repo https://github.com/queens-autodrive/vision-opencv
 ```
-cd ros/src
+cd src
 git clone git@github.com:queens-autodrive/vision-opencv.git
 ```
 ## Building your Project
