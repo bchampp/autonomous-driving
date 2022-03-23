@@ -75,7 +75,7 @@ class LaneDetector:
 		self.width = width
 		self.height = height
 
-		self.padding = int(0.25 * width) # padding from side of the image in pixels
+		self.padding = int(0 * width) # padding from side of the image in pixels
 
 		self.desired_roi_points = np.float32([
 			[self.padding, 0],              # Top-left corner
@@ -656,11 +656,14 @@ class LaneDetector:
 		"""
 		overlay = frame.copy()
 		# Overlay trapezoid on the frame
-		this_image = cv2.polylines(overlay, np.int32([
+		roi_image = cv2.polylines(overlay, np.int32([
 			self.roi_points]), True, (147, 20, 255), 3)
- 
+			
+		desired_roi_image = cv2.polylines(overlay, np.int32([
+			self.desired_roi_points]), True, (147, 20, 255), 3)
+
 		# Display the image
-		cv2.imshow('ROI Image', this_image)
+		cv2.imshow('ROI Image', roi_image)
 		 
 	def get_host_lane(self, frame):
 		return self.host_lane
@@ -676,6 +679,7 @@ class LaneDetector:
 			self.warped_frame = self.perspective_transform(self.cropped_lane_lines)
 			self.histogram = self.calculate_histogram(self.warped_frame)
 			self.left_fit, self.right_fit = self.get_lane_line_indices_sliding_windows(self.warped_frame)
+			self.calculate_car_position(False)
 			self.get_lane_line_previous_window(self.left_fit, self.right_fit)
 		except Exception as e:
 			raise e
@@ -692,6 +696,11 @@ class LaneDetector:
 		warp_zero = np.zeros(self.warped_frame.shape).astype(np.uint8)
 		color_warp = np.dstack((warp_zero, warp_zero, warp_zero))       
 				 
+		# print("Left", end="")
+		# print(self.left_fit)
+		# print("Right", end="")
+		# print(self.right_fit)
+
 		# Recast the x and y points into usable format for cv2.fillPoly()
 		pts_left = np.array([np.transpose(np.vstack([
 												 self.left_fitx, self.ploty]))])
@@ -699,57 +708,67 @@ class LaneDetector:
 													self.right_fitx, self.ploty])))])
 		pts = np.hstack((pts_left, pts_right))
 
+		midpoints = [] # this is a tuple
+		waypoints = [] # this is just the point
+		for row in range(len(pts_left[0])):
+			left_pt = pts_left[0][row][0] 
+			right_pt = pts_right[0][len(pts_left[0]) - row - 1][0]
+			midpoint = (right_pt + left_pt) / 2
+			midpoints.append((midpoint, row))
+			waypoints.append(midpoint)
+
 		# Find the values that define the line of best fit
 		# TODO: This can be improved with something like RANSAC
 		
 		# Take the points that define the line.
-		left_p1_x = int(self.left_fitx[0])
-		left_p1_y = 0
-		left_p2_x = int(self.left_fitx[-1])
-		left_p2_y = 480
+		# left_p1_x = int(self.left_fitx[0])
+		# left_p1_y = 0
+		# left_p2_x = int(self.left_fitx[-1])
+		# left_p2_y = 480
 
-		right_p1_x = int(self.right_fitx[0])
-		right_p1_y = 0
-		right_p2_x = int(self.right_fitx[-1])
-		right_p2_y = 480
+		# right_p1_x = int(self.right_fitx[0])
+		# right_p1_y = 0
+		# right_p2_x = int(self.right_fitx[-1])
+		# right_p2_y = 480
 
-		# Determine what points are the top and bottom (for midpoint calculation)
-		if (left_p1_y > left_p2_y):
-			left_top_x = left_p2_x
-			left_top_y = left_p2_y
-			left_bottom_x = left_p1_x
-			left_bottom_y = left_p1_y
+		# # Determine what points are the top and bottom (for midpoint calculation)
+		# if (left_p1_y > left_p2_y):
+		# 	left_top_x = left_p2_x
+		# 	left_top_y = left_p2_y
+		# 	left_bottom_x = left_p1_x
+		# 	left_bottom_y = left_p1_y
 
-		else:
-			left_top_x = left_p1_x
-			left_top_y = left_p1_y
-			left_bottom_x = left_p2_x
-			left_bottom_y = left_p2_y
+		# else:
+		# 	left_top_x = left_p1_x
+		# 	left_top_y = left_p1_y
+		# 	left_bottom_x = left_p2_x
+		# 	left_bottom_y = left_p2_y
 
-		if (right_p1_y > right_p2_y):
-			right_top_x = right_p2_x
-			right_top_y = right_p2_y
-			right_bottom_x = right_p1_x
-			right_bottom_y = right_p1_y
+		# if (right_p1_y > right_p2_y):
+		# 	right_top_x = right_p2_x
+		# 	right_top_y = right_p2_y
+		# 	right_bottom_x = right_p1_x
+		# 	right_bottom_y = right_p1_y
 
-		else:
-			right_top_x = right_p1_x
-			right_top_y = right_p1_y
-			right_bottom_x = right_p2_x
-			right_bottom_y = right_p2_y
+		# else:
+		# 	right_top_x = right_p1_x
+		# 	right_top_y = right_p1_y
+		# 	right_bottom_x = right_p2_x
+		# 	right_bottom_y = right_p2_y
 
-		midpoint_top_x = int((right_top_x + left_top_x) / 2)
-		midpoint_top_y = left_top_y if left_top_y < right_top_y else right_top_y
-		midpoint_bottom_x = int(color_warp.shape[1] / 2)
-		midpoint_bottom_y = int(color_warp.shape[0])
+		# midpoint_top_x = int((right_top_x + left_top_x) / 2)
+		# midpoint_top_y = left_top_y if left_top_y < right_top_y else right_top_y
+		# midpoint_bottom_x = int(color_warp.shape[1] / 2)
+		# midpoint_bottom_y = int(color_warp.shape[0])
 
 		# Draw lane on the warped blank image
 		cv2.fillPoly(color_warp, np.int_([pts]), (0, 255, 0))
-		cv2.polylines(color_warp, np.int_([pts]), True, (0, 0, 255), 10)
+		cv2.polylines(color_warp, np.int_([pts]), True, (0, 0, 255), 3)
+		cv2.polylines(color_warp, np.int_([midpoints]), False, (0, 255, 255), 3)
 
-		cv2.line(color_warp, (left_bottom_x, left_bottom_y), (left_top_x, left_top_y), (255, 0, 0), 10)
-		cv2.line(color_warp, (right_bottom_x, right_bottom_y), (right_top_x, right_top_y), (255, 0, 0), 10)
-		cv2.line(color_warp, (midpoint_bottom_x, midpoint_bottom_y), (midpoint_top_x, midpoint_top_y), (0, 0, 255), 10)
+		# cv2.line(color_warp, (left_bottom_x, left_bottom_y), (left_top_x, left_top_y), (255, 0, 0), 10)
+		# cv2.line(color_warp, (right_bottom_x, right_bottom_y), (right_top_x, right_top_y), (255, 0, 0), 10)
+		# cv2.line(color_warp, (midpoint_bottom_x, midpoint_bottom_y), (midpoint_top_x, midpoint_top_y), (0, 0, 255), 10)
 
 		# Warp the blank back to original image space using inverse perspective matrix
 		newwarp = cv2.warpPerspective(color_warp, self.inv_transformation_matrix, (self.width, self.height))
@@ -758,10 +777,12 @@ class LaneDetector:
 
 		# Combine the result with the original image
 		result = cv2.addWeighted(overlay, 1, newwarp, 0.6, 0)
+		# cv2.imshow("Test", color_warp)
+		# cv2.waitKey(1)
 		self.lanes_top_view = color_warp
 		self.lane_pts_top_view = pts
 		self.lanes_camera_view = result
-		self.target_x = midpoint_top_x
+		self.waypoints = np.flip(waypoints)
 		return result           
 		
 	def print_detections(self):

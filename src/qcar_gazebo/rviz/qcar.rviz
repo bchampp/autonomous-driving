@@ -6,10 +6,9 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /Grid1
-        - /Image1
+        - /Image2
       Splitter Ratio: 0.5
-    Tree Height: 295
+    Tree Height: 286
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -28,7 +27,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Source Image
+    SyncSource: Intel RealSense
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -54,218 +53,17 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Alpha: 0.5
-      Class: rviz/RobotModel
-      Collision Enabled: false
+    - Class: rviz/Image
       Enabled: true
-      Links:
-        All Links Enabled: true
-        Expand Joint Details: false
-        Expand Link Details: false
-        Expand Tree: false
-        Link Tree Style: Links in Alphabetic Order
-        base:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        camera_bottom_screw_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_color_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_color_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_csi_back:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_csi_front:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_csi_left:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_csi_right:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_depth_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_depth_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_left_ir_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_left_ir_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        camera_rgb:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_right_ir_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_right_ir_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        hubfl:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        hubfr:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        lidar:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheelfl:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheelfr:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheelrl:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheelrr:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-      Name: RobotModel
-      Robot Description: robot_description
-      TF Prefix: ""
-      Update Interval: 0
-      Value: true
-      Visual Enabled: true
-    - Class: rviz/TF
-      Enabled: true
-      Frame Timeout: 15
-      Frames:
-        All Enabled: true
-        base:
-          Value: true
-        camera_bottom_screw_frame:
-          Value: true
-        camera_color_frame:
-          Value: true
-        camera_color_optical_frame:
-          Value: true
-        camera_csi_back:
-          Value: true
-        camera_csi_front:
-          Value: true
-        camera_csi_left:
-          Value: true
-        camera_csi_right:
-          Value: true
-        camera_depth_frame:
-          Value: true
-        camera_depth_optical_frame:
-          Value: true
-        camera_left_ir_frame:
-          Value: true
-        camera_left_ir_optical_frame:
-          Value: true
-        camera_link:
-          Value: true
-        camera_rgb:
-          Value: true
-        camera_right_ir_frame:
-          Value: true
-        camera_right_ir_optical_frame:
-          Value: true
-        hubfl:
-          Value: true
-        hubfr:
-          Value: true
-        lidar:
-          Value: true
-        wheelfl:
-          Value: true
-        wheelfr:
-          Value: true
-        wheelrl:
-          Value: true
-        wheelrr:
-          Value: true
-      Marker Alpha: 1
-      Marker Scale: 0.5
-      Name: TF
-      Show Arrows: false
-      Show Axes: false
-      Show Names: false
-      Tree:
-        base:
-          camera_csi_back:
-            {}
-          camera_csi_front:
-            {}
-          camera_csi_left:
-            {}
-          camera_csi_right:
-            {}
-          camera_rgb:
-            camera_bottom_screw_frame:
-              camera_link:
-                camera_depth_frame:
-                  camera_color_frame:
-                    camera_color_optical_frame:
-                      {}
-                  camera_depth_optical_frame:
-                    {}
-                  camera_left_ir_frame:
-                    camera_left_ir_optical_frame:
-                      {}
-                  camera_right_ir_frame:
-                    camera_right_ir_optical_frame:
-                      {}
-          hubfl:
-            wheelfl:
-              {}
-          hubfr:
-            wheelfr:
-              {}
-          lidar:
-            {}
-          wheelrl:
-            {}
-          wheelrr:
-            {}
-      Update Interval: 0
+      Image Topic: /qcar/csi_front/image_raw
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Front Camera
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: raw
+      Unreliable: false
       Value: true
     - Class: rviz/Image
       Enabled: true
@@ -273,31 +71,7 @@ Visualization Manager:
       Max Value: 1
       Median window: 5
       Min Value: 0
-      Name: Source Image
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: true
-    - Class: rviz/Image
-      Enabled: true
-      Image Topic: /vision/lanes/detections
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Lane Detections
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: true
-    - Class: rviz/Image
-      Enabled: true
-      Image Topic: /vision/yolo/visualization
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Object Detections
+      Name: Intel RealSense
       Normalize Range: true
       Queue Size: 2
       Transport Hint: raw
@@ -330,6 +104,30 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
+      Value: true
+    - Class: rviz/Image
+      Enabled: true
+      Image Topic: /vision/lanes/detections
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Lane Fill
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: raw
+      Unreliable: false
+      Value: true
+    - Class: rviz/Image
+      Enabled: true
+      Image Topic: /detections_image_topic
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Image
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: raw
+      Unreliable: false
       Value: true
     - Class: rviz/Image
       Enabled: true
@@ -371,7 +169,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.8243491649627686
+      Distance: 10.374746322631836
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -379,41 +177,41 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.39999955892562866
-        Y: 0.7755153179168701
-        Z: 0.008043899200856686
+        X: 0
+        Y: 0
+        Z: 0
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.21039775013923645
+      Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
-      Yaw: 3.321730613708496
+      Yaw: 3.545405149459839
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
+  Front Camera:
+    collapsed: false
   Height: 1016
   Hide Left Dock: false
-  Hide Right Dock: false
+  Hide Right Dock: true
   Image:
     collapsed: false
-  Lane Detections:
+  Intel RealSense:
     collapsed: false
-  Object Detections:
+  Lane Fill:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000026e000001b2fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c00610079007301000001df000001b2000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f000002cefc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003d000002ce000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b2000000000000000000000002000007380000019cfc0100000005fb000000180053006f007500720063006500200049006d0061006700650100000000000001990000009000fffffffb0000001e004c0061006e006500200044006500740065006300740069006f006e0073010000019f00000188000000a300fffffffb00000022004f0062006a00650063007400200044006500740065006300740069006f006e0073010000032d00000217000000b000fffffffb0000000a0049006d006100670065010000054a000001ee0000005e00fffffffb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073800000044fc0100000002fb0000000800540069006d0065010000000000000738000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000004c4000001b200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd000000040000000000000156000001a9fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c00610079007301000001ee000001a9000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f000001a9fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007300000001ee000001a9000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b2000000000000000000000002000009b8000001abfc0100000006fb0000001800460072006f006e0074002000430061006d00650072006101000000000000017c0000009100fffffffb00000012004c0061006e0065002000460069006c006c0100000182000001e10000006d00fffffffb0000001e0049006e00740065006c0020005200650061006c00530065006e007300650100000369000002590000009d00fffffffb0000000a0049006d00610067006501000005c8000001600000005e00fffffffb0000000a0049006d006100670065010000072e0000028a0000005e00fffffffb0000000a00560069006500770073030000004e00000080000002e10000019700000003000009b80000003efc0100000002fb0000000800540069006d00650100000000000009b8000002eb00fffffffb0000000800540069006d006501000000000000045000000000000000000000085c000001a900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
-    collapsed: false
-  Source Image:
     collapsed: false
   Time:
     collapsed: false
   Tool Properties:
     collapsed: false
   Views:
-    collapsed: false
-  Width: 1848
-  X: 1992
+    collapsed: true
+  Width: 2488
+  X: 72
   Y: 27

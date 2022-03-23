@@ -4,13 +4,12 @@ Panels:
     Name: Selection
     Property Tree Widget:
       Expanded:
-        - /Global Options1
         - /Status1
         - /Grid1
         - /Front Camera Image1
         - /PointCloud21
       Splitter Ratio: 0.5
-    Tree Height: 70
+    Tree Height: 306
   - Class: rviz/Tool Properties
     Expanded:
       - /2D Pose Estimate1
@@ -55,7 +54,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /qcar/csi_front
+      Image Topic: /qcar/csi_front/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -90,7 +89,7 @@ Visualization Manager:
       Unreliable: false
       Value: true
     - Class: rviz/Image
-      Enabled: true
+      Enabled: false
       Image Topic: /detections_image_topic
       Max Value: 1
       Median window: 5
@@ -100,7 +99,7 @@ Visualization Manager:
       Queue Size: 2
       Transport Hint: raw
       Unreliable: false
-      Value: true
+      Value: false
     - Class: rviz/Image
       Enabled: true
       Image Topic: /vision/lanes/detections_top
@@ -142,7 +141,7 @@ Visualization Manager:
       Use rainbow: true
       Value: true
     - Class: rviz/Image
-      Enabled: true
+      Enabled: false
       Image Topic: /camera/aligned_depth_to_color/image_raw
       Max Value: 1
       Median window: 5
@@ -152,7 +151,7 @@ Visualization Manager:
       Queue Size: 2
       Transport Hint: raw
       Unreliable: false
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -227,62 +226,10 @@ Visualization Manager:
       Unreliable: false
       Value: false
     - Class: rviz/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        base:
-          Value: true
-        camera_aligned_depth_to_color_frame:
-          Value: true
-        camera_bottom_screw_frame:
-          Value: true
-        camera_color_frame:
-          Value: true
-        camera_color_optical_frame:
-          Value: true
-        camera_csi_back:
-          Value: true
-        camera_csi_front:
-          Value: true
-        camera_csi_left:
-          Value: true
-        camera_csi_right:
-          Value: true
-        camera_depth_frame:
-          Value: true
-        camera_depth_optical_frame:
-          Value: true
-        camera_left_ir_frame:
-          Value: true
-        camera_left_ir_optical_frame:
-          Value: true
-        camera_link:
-          Value: true
-        camera_rgb:
-          Value: true
-        camera_right_ir_frame:
-          Value: true
-        camera_right_ir_optical_frame:
-          Value: true
-        hubfl:
-          Value: true
-        hubfr:
-          Value: true
-        lidar:
-          Value: true
-        map:
-          Value: true
-        odom:
-          Value: true
-        wheelfl:
-          Value: true
-        wheelfr:
-          Value: true
-        wheelrl:
-          Value: true
-        wheelrr:
-          Value: true
       Marker Alpha: 1
       Marker Scale: 1
       Name: TF
@@ -290,70 +237,131 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        base:
-          camera_csi_back:
-            {}
-          camera_csi_front:
-            {}
-          camera_csi_left:
-            {}
-          camera_csi_right:
-            {}
-          camera_rgb:
-            camera_bottom_screw_frame:
-              {}
-          hubfl:
-            wheelfl:
-              {}
-          hubfr:
-            wheelfr:
-              {}
-          lidar:
-            {}
-          wheelrl:
-            {}
-          wheelrr:
-            {}
-        map:
-          odom:
-            camera_link:
-              camera_aligned_depth_to_color_frame:
-                camera_color_optical_frame:
-                  {}
-              camera_color_frame:
-                {}
-              camera_depth_frame:
-                camera_depth_optical_frame:
-                  {}
-                camera_left_ir_frame:
-                  camera_left_ir_optical_frame:
-                    {}
-                camera_right_ir_frame:
-                  camera_right_ir_optical_frame:
-                    {}
+        {}
       Update Interval: 0
-      Value: true
+      Value: false
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
-      Enabled: false
+      Enabled: true
       Links:
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_bottom_screw_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_color_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_color_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_csi_back:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_csi_front:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_csi_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_csi_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_left_ir_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_left_ir_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_rgb:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_right_ir_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_right_ir_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        hubfl:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        hubfr:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        lidar:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelfl:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelfr:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelrl:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheelrr:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
       Update Interval: 0
-      Value: false
+      Value: true
       Visual Enabled: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: base
     Frame Rate: 30
   Name: root
   Tools:
@@ -377,7 +385,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rtabmap_ros/OrbitOriented
-      Distance: 10
+      Distance: 3.1647839546203613
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -393,14 +401,14 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.7853981852531433
+      Pitch: 0.21039845049381256
       Target Frame: <Fixed Frame>
-      Yaw: 0.7853981852531433
+      Yaw: 3.110400438308716
     Saved: ~
 Window Geometry:
   Front Camera Image:
     collapsed: false
-  Height: 1016
+  Height: 1043
   Hide Left Dock: false
   Hide Right Dock: false
   Image:
@@ -409,7 +417,7 @@ Window Geometry:
     collapsed: false
   Object Detections:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd000000040000000000000276000000c9fc0200000008fb0000001200530065006c0065006300740069006f006e01000002d3000000c9000000c900fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000018b000001620000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c0000026100000001000001c9000000c9fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007301000002d3000000c9000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000073800000290fc0100000009fb0000002400460072006f006e0074002000430061006d00650072006100200049006d006100670065010000000000000259000000be00fffffffb0000001c004c0061006e006500200044006500740065006300740069006f006e010000025f000000d10000009c00fffffffb0000001e004c0061006e006500200044006500740065006300740069006f006e00730000000337000002e60000000000000000fb0000001c004c0061006e006500200044006500740065006300740069006f006e0100000336000000d10000009c00fffffffb0000001e005200650061006c00530065006e0073006500200049006d006100670065010000040d000000e0000000a700fffffffb00000022004f0062006a00650063007400200044006500740065006300740069006f006e007301000004f300000101000000b000fffffffb0000000a0049006d00610067006501000005fa0000013e0000005e00fffffffb0000000a0049006d006100670065000000037e0000027c0000000000000000fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073800000039fc0100000002fb0000000800540069006d0065010000000000000738000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000002ed000000c900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd000000040000000000000220000001b5fc0200000008fb0000001200530065006c0065006300740069006f006e0000000202000001b5000000c900fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000018b000001620000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c000002610000000100000174000001ecfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007300000001cb000001ec000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b2000000000000000000000002000003c0000001bdfc0100000009fb0000002400460072006f006e0074002000430061006d00650072006100200049006d0061006700650100000000000000da000000be00fffffffb0000001e005200650061006c00530065006e0073006500200049006d00610067006501000000e00000010b000000a700fffffffb0000001c004c0061006e006500200044006500740065006300740069006f006e01000001f1000001090000009c00fffffffb0000001e004c0061006e006500200044006500740065006300740069006f006e00730000000337000002e60000000000000000fb0000001c004c0061006e006500200044006500740065006300740069006f006e0100000300000000c00000009c00fffffffb00000022004f0062006a00650063007400200044006500740065006300740069006f006e00730000000310000000b0000000b000fffffffb0000000a0049006d00610067006500000006360000014a0000005e00fffffffb0000000a0049006d006100670065000000037e0000027c0000000000000000fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000003c000000039fc0100000002fb0000000800540069006d00650100000000000003c0000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000003c0000001b700000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   RealSense Image:
     collapsed: false
   Selection:
@@ -420,6 +428,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1848
-  X: 1992
-  Y: 27
+  Width: 960
+  X: 0
+  Y: 0

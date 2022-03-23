@@ -39,7 +39,6 @@ class ControllerCommandNode(object):
                         self.commands['steering'] = event.state
                     if (event.code == 'ABS_RZ'):
                         self.commands['throttle'] = event.state
-
                     if (event.code == 'BTN_TL'):
                         self.commands['autonomous'] = not self.commands['autonomous']
 
@@ -50,8 +49,9 @@ class ControllerCommandNode(object):
         throttle_remapped = interp(throttle, [0, 255], [0, 30])
         steering_adjusted = steering - 128
         steering_remapped = interp(steering_adjusted, [-32256, 32256], [1, -1])
-        self.throttle_pub.publish(Float64(throttle_remapped))
-        self.steering_pub.publish(Float64(steering_remapped))
+        if not self.commands['autonomous']:
+            self.throttle_pub.publish(Float64(throttle_remapped))
+            self.steering_pub.publish(Float64(steering_remapped))
         self.autonomous_pub.publish(Bool(autonomous))
 
 if __name__ == '__main__':
