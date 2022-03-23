@@ -24,7 +24,7 @@ class LocalPlanningNode(object):
         rospy.loginfo("Starting Planning System")
         self.subscribers()
         self.now = rospy.Time.now()
-        self.throttle = 3
+        self.throttle = 1.2 # between 0 - 30
         self.steering = 0
         self.bridge = CvBridge()
         self.autonomous = True
@@ -66,12 +66,12 @@ class LocalPlanningNode(object):
         self.autonomous_pub = rospy.Subscriber(
             "/qcar/autonomous_enabled", Bool, self.autonomous_callback
         )
-        self.detected_objects_bounding_boxes = rospy.Subscriber(
-            "/detected_objects_in_image",
-            BoundingBoxes,
-            self.detected_object_callback,
-            queue_size=10,
-        )
+        # self.detected_objects_bounding_boxes = rospy.Subscriber(
+        #     "/detected_objects_in_image",
+        #     BoundingBoxes,
+        #     self.detected_object_callback,
+        #     queue_size=10,
+        # )
 
     def waypoints_callback(self, data):
         waypoints = data.data
@@ -83,11 +83,11 @@ class LocalPlanningNode(object):
             offset = center_point - next_waypoint
 
             # if the offset is really small, just go straight
-            if offset < 5:
+            if abs(offset) < 5:
                 self.steering = 0
 
             else:
-                self.steering = interp(offset, [-50, 50], [-1, 1])
+                self.steering = interp(offset, [-200, 200], [-1, 1]) # 50/50 in simulation TODO
             print(f"Offset: {offset}, Steer: {self.steering}")
 
         # Method 2 - Calculate slope of the waypoints curve and become parallel to it.
@@ -174,7 +174,7 @@ class LocalPlanningNode(object):
                             rospy.loginfo(f"Stopping at Stop Sign for 5 seconds")
                             self.throttle_pub.publish(Float64(self.throttle))
                             self.last_stop_at_sign = rospy.get_rostime()
-                            time.sleep(5)
+                            time.sleep(5) # TODO: Rospy sleep instead. 
                             self.throttle = 3
                             self.throttle_pub.publish(Float64(self.throttle))
                             rospy.loginfo(f"Continuing after stop sign")

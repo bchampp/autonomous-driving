@@ -18,10 +18,10 @@
 
   <node name="controller" pkg="qcar" type="commandnode.py" />
 
-    <node name="planning_node" pkg="qcar_planning" type="local_planner.py" output="screen" />
+    <!-- <node name="planning_node" pkg="qcar_planning" type="local_planner.py" output="screen" /> -->
 
-   <include file="$(find qcar_perception)/launch/object_detection.launch" />
+   <!-- <include file="$(find qcar_perception)/launch/object_detection.launch" /> -->
 
-  <include file="$(find qcar_perception)/launch/lane_detection.launch" />
+  <!-- <include file="$(find qcar_perception)/launch/lane_detection.launch" /> -->
 
 </launch>
