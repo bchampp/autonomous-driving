@@ -24,7 +24,7 @@ class LocalPlanningNode(object):
         rospy.loginfo("Starting Planning System")
         self.subscribers()
         self.now = rospy.Time.now()
-        self.throttle = 9
+        self.throttle = 3
         self.steering = 0
         self.bridge = CvBridge()
         self.autonomous = True
@@ -106,7 +106,7 @@ class LocalPlanningNode(object):
         self.elasped_time = rospy.get_rostime() - self.turn_time
 
         if self.turning == False or (
-            self.turning == True and self.elasped_time > rospy.Duration(2)
+                self.turning == True and self.elasped_time > rospy.Duration(2)
         ):
             # not a big offset, just drive forwards.
             if abs(offset) < 15:
@@ -146,11 +146,16 @@ class LocalPlanningNode(object):
         self.autonomous = isEnabled.data
 
     def detected_object_callback(self, data: BoundingBoxes):
-        depth_camera_data = rospy.wait_for_message("/camera/depth/image_raw", Image)
+
+        try:
+            depth_camera_data = rospy.wait_for_message("/camera/depth/image_raw", Image, timeout=2.0)
+        except rospy.ROSException as e:
+            rospy.logerr("Timeout while retreiving depth data")
+
         cv_image = self.bridge.imgmsg_to_cv2(
             depth_camera_data, depth_camera_data.encoding
         )
-        if self.last_stop_at_sign is None or (rospy.get_rostime() - self.last_stop_at_sign) > rospy.Duration(30):
+        if self.last_stop_at_sign is None or (rospy.get_rostime() - self.last_stop_at_sign) > rospy.Duration(5):
             for box in data.bounding_boxes:
                 if box.Class == "stop" and box.probability > 0.5:
                     pix = (
@@ -163,20 +168,20 @@ class LocalPlanningNode(object):
                     rospy.loginfo(
                         f"Average Depth Stop Sign Detection: {cv_image[pix[1], pix[0]]}"
                     )
-                    if cv_image[pix[1], pix[0]] <= 600:
+                    if cv_image[pix[1], pix[0]] <= 600 and cv_image[pix[1], pix[0]] != 0:
                         self.throttle = 0
                         if self.autonomous:
                             rospy.loginfo(f"Stopping at Stop Sign for 5 seconds")
                             self.throttle_pub.publish(Float64(self.throttle))
                             self.last_stop_at_sign = rospy.get_rostime()
-                            time.sleep(5000)
-                            self.throttle = 9
+                            time.sleep(5)
+                            self.throttle = 3
                             self.throttle_pub.publish(Float64(self.throttle))
+                            rospy.loginfo(f"Continuing after stop sign")
 
 
 if __name__ == "__main__":
     rospy.init_node("planning_node")
     r = LocalPlanningNode()
     rospy.spin()
-
 
