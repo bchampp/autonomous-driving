@@ -43,9 +43,8 @@
 - [About the Project](#star2-about-the-project)
 - [Getting Started](#toolbox-getting-started)
 - [Usage](#eyes-usage)
-- [License](#warning-license)
 - [Contact](#handshake-contact)
-- [Acknowledgements](#gem-acknowledgements)
+- [License](#warning-license)
 
 <!-- About the Project -->
 
@@ -58,8 +57,8 @@ The modules implemented in this project are:
 1. Hardware interface with camera, depth, imu, and motor control.
 2. Image processing pipeline to calibrate and synchronize data.
 3. Perception system including lane detection and object detection.
-4. Planning system to control the cars behaviour.
-5. Control system to effectively move the car.
+4. Planning system to determine the vehicles movements.
+5. Control system to actuate the throttle and steering.
 6. Simulation using CARLA and Gazebo.
 
 <!-- Screenshots -->
@@ -110,10 +109,10 @@ roslaunch qcar_carla qcar_perception
 
 ## :handshake: Authors
 
-Brent Champion - brent.champion@queensu.ca
-Erin Peterson - erin.peterson@queensu.ca
-Laure Halabi - laure.halabi@queensu.ca
-Raed Fayad - raed.fayad@queensu.ca
+- [Brent Champion](mailto:brent.champion@queensu.ca)
+- [Erin Peterson](erin.peterson@queensu.ca)
+- [Laure Halabi](laure.halabi@queensu.ca)
+- [Raed Fayad](raed.fayad@queensu.ca)
 
 <!-- License -->
 
