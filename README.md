@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="doc/img/qcar.png" alt="logo" width="200" height="auto" />
+  <img src="doc/img/qcar.png" alt="logo" width="250" height="auto" />
   <h1>Autonomous Driving using SLAM</h1>
   
   <p>
@@ -16,10 +16,10 @@
   <a href="https://github.com/bchampp/autonomous-driving/stargazers">
     <img src="https://img.shields.io/github/stars/bchampp/autonomous-driving" alt="stars" />
   </a>
-  <a href="https://github.com/Louis3797/awesome-readme-template/issues/">
-    <img src="https://img.shields.io/github/issues/Louis3797/awesome-readme-template" alt="open issues" />
+  <a href="https://github.com/bchampp/autonomous-driving/issues/">
+    <img src="https://img.shields.io/github/issues/bchampp/autonomous-driving" alt="open issues" />
   </a>
-  <a href="https://github.com/Louis3797/awesome-readme-template/blob/master/LICENSE">
+  <a href="https://github.com/bchampp/autonomous-driving/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/bchampp/autonomous-driving.svg" alt="license" />
   </a>
 </p>
@@ -41,22 +41,8 @@
 # :notebook_with_decorative_cover: Table of Contents
 
 - [About the Project](#star2-about-the-project)
-  - [Screenshots](#camera-screenshots)
-  - [Tech Stack](#space_invader-tech-stack)
-  - [Features](#dart-features)
-  - [Color Reference](#art-color-reference)
-  - [Environment Variables](#key-environment-variables)
 - [Getting Started](#toolbox-getting-started)
-  - [Prerequisites](#bangbang-prerequisites)
-  - [Installation](#gear-installation)
-  - [Running Tests](#test_tube-running-tests)
-  - [Run Locally](#running-run-locally)
-  - [Deployment](#triangular_flag_on_post-deployment)
 - [Usage](#eyes-usage)
-- [Roadmap](#compass-roadmap)
-- [Contributing](#wave-contributing)
-  - [Code of Conduct](#scroll-code-of-conduct)
-- [FAQ](#grey_question-faq)
 - [License](#warning-license)
 - [Contact](#handshake-contact)
 - [Acknowledgements](#gem-acknowledgements)
@@ -65,236 +51,72 @@
 
 ## :star2: About the Project
 
+This project implements an autonomous driving system for the Quanser QCar, along with a simulation environment to accurately test in.
+
+The modules implemented in this project are:
+
+1. Hardware interface with camera, depth, imu, and motor control.
+2. Image processing pipeline to calibrate and synchronize data.
+3. Perception system including lane detection and object detection.
+4. Planning system to control the cars behaviour.
+5. Control system to effectively move the car.
+6. Simulation using CARLA and Gazebo.
+
 <!-- Screenshots -->
-
-### :camera: Screenshots
-
-<div align="center"> 
-  <img src="https://placehold.co/600x400?text=Your+Screenshot+here" alt="screenshot" />
-</div>
-
-<!-- TechStack -->
-
-### :space_invader: Tech Stack
-
-<details>
-  <summary>Client</summary>
-  <ul>
-    <li><a href="https://www.typescriptlang.org/">Typescript</a></li>
-    <li><a href="https://nextjs.org/">Next.js</a></li>
-    <li><a href="https://reactjs.org/">React.js</a></li>
-    <li><a href="https://tailwindcss.com/">TailwindCSS</a></li>
-  </ul>
-</details>
-
-<details>
-  <summary>Server</summary>
-  <ul>
-    <li><a href="https://www.typescriptlang.org/">Typescript</a></li>
-    <li><a href="https://expressjs.com/">Express.js</a></li>
-    <li><a href="https://go.dev/">Golang</a></li>
-    <li><a href="https://nestjs.com/">Nest.js</a></li>
-    <li><a href="https://socket.io/">SocketIO</a></li>
-    <li><a href="https://www.prisma.io/">Prisma</a></li>    
-    <li><a href="https://www.apollographql.com/">Apollo</a></li>
-    <li><a href="https://graphql.org/">GraphQL</a></li>
-  </ul>
-</details>
-
-<details>
-<summary>Database</summary>
-  <ul>
-    <li><a href="https://www.mysql.com/">MySQL</a></li>
-    <li><a href="https://www.postgresql.org/">PostgreSQL</a></li>
-    <li><a href="https://redis.io/">Redis</a></li>
-    <li><a href="https://neo4j.com/">Neo4j</a></li>
-    <li><a href="https://www.mongodb.com/">MongoDB</a></li>
-  </ul>
-</details>
-
-<details>
-<summary>DevOps</summary>
-  <ul>
-    <li><a href="https://www.docker.com/">Docker</a></li>
-    <li><a href="https://www.jenkins.io/">Jenkins</a></li>
-    <li><a href="https://circleci.com/">CircleCLI</a></li>
-  </ul>
-</details>
-
-<!-- Features -->
-
-### :dart: Features
-
-- Feature 1
-- Feature 2
-- Feature 3
-
-<!-- Color Reference -->
-
-### :art: Color Reference
-
-| Color           | Hex                                                              |
-| --------------- | ---------------------------------------------------------------- |
-| Primary Color   | ![#222831](https://via.placeholder.com/10/222831?text=+) #222831 |
-| Secondary Color | ![#393E46](https://via.placeholder.com/10/393E46?text=+) #393E46 |
-| Accent Color    | ![#00ADB5](https://via.placeholder.com/10/00ADB5?text=+) #00ADB5 |
-| Text Color      | ![#EEEEEE](https://via.placeholder.com/10/EEEEEE?text=+) #EEEEEE |
-
-<!-- Env Variables -->
-
-### :key: Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file
-
-`API_KEY`
-
-`ANOTHER_API_KEY`
-
-<!-- Getting Started -->
 
 ## :toolbox: Getting Started
 
-<!-- Prerequisites -->
+This project is implemented using the Robotic Operating System (ROS). The root of the repository acts as the catkin workspace. ROS packages are found in `src/`.
 
-### :bangbang: Prerequisites
+Build the catkin workspace:
 
-This project uses Yarn as package manager
-
-```bash
- npm install --global yarn
+```
+source /opt/ros/$ROS_DISTRO/setup.bash # melodic or noetic
+catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3 # ensure it is built with python3
+source devel/setup.bash # update the environment
 ```
 
-<!-- Installation -->
+### Simulation
 
-### :gear: Installation
+#### Gazebo
 
-Install my-project with npm
+<div align="center"> 
+  <img src="doc/img/gazebo.png" alt="screenshot" />
+</div>
 
-```bash
-  yarn install my-project
-  cd my-project
+Gazebo is used as a simulation environment for the system. URDF files are provided to accurately model the vehicle. More instructions for running the gazebo simulation can be found in the `qcar_gazebo` package.
+
+To run the simulation with all systems running:
+
+```
+roslaunch qcar_gazebo qcar_world.launch
 ```
 
-<!-- Running Tests -->
+To run the simulation with only perception systems running:
 
-### :test_tube: Running Tests
-
-To run tests, run the following command
-
-```bash
-  yarn test test
+```
+roslaunch qcar_gazebo qcar_perception.launch
 ```
 
-<!-- Run Locally -->
+#### CARLA
 
-### :running: Run Locally
+CARLA is an open source simulation platform built with the Unreal Engine. The perception systems can be run in the CARLA world using:
 
-Clone the project
-
-```bash
-  git clone https://github.com/Louis3797/awesome-readme-template.git
+```
+roslaunch qcar_carla qcar_perception
 ```
 
-Go to the project directory
+<!-- Contact -->
 
-```bash
-  cd my-project
-```
+## :handshake: Authors
 
-Install dependencies
-
-```bash
-  yarn install
-```
-
-Start the server
-
-```bash
-  yarn start
-```
-
-<!-- Deployment -->
-
-### :triangular_flag_on_post: Deployment
-
-To deploy this project run
-
-```bash
-  yarn deploy
-```
-
-<!-- Usage -->
-
-## :eyes: Usage
-
-Use this space to tell a little more about your project and how it can be used. Show additional screenshots, code samples, demos or link to other resources.
-
-```javascript
-import Component from "my-project";
-
-function App() {
-  return <Component />;
-}
-```
-
-<!-- Roadmap -->
-
-## :compass: Roadmap
-
-- [x] Todo 1
-- [ ] Todo 2
-
-<!-- Contributing -->
-
-## :wave: Contributing
-
-<a href="https://github.com/Louis3797/awesome-readme-template/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Louis3797/awesome-readme-template" />
-</a>
-
-Contributions are always welcome!
-
-See `contributing.md` for ways to get started.
-
-<!-- Code of Conduct -->
-
-### :scroll: Code of Conduct
-
-Please read the [Code of Conduct](https://github.com/Louis3797/awesome-readme-template/blob/master/CODE_OF_CONDUCT.md)
-
-<!-- FAQ -->
-
-## :grey_question: FAQ
-
-- Question 1
-
-  - Answer 1
-
-- Question 2
-
-  - Answer 2
+Brent Champion - brent.champion@queensu.ca
+Erin Peterson - erin.peterson@queensu.ca
+Laure Halabi - laure.halabi@queensu.ca
+Raed Fayad - raed.fayad@queensu.ca
 
 <!-- License -->
 
 ## :warning: License
 
-Distributed under the no License. See LICENSE.txt for more information.
-
-<!-- Contact -->
-
-## :handshake: Contact
-
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
-
-Project Link: [https://github.com/Louis3797/awesome-readme-template](https://github.com/Louis3797/awesome-readme-template)
-
-<!-- Acknowledgments -->
-
-## :gem: Acknowledgements
-
-Use this section to mention useful resources and libraries that you have used in your projects.
-
-- [Shields.io](https://shields.io/)
-- [Awesome README](https://github.com/matiassingers/awesome-readme)
-- [Emoji Cheat Sheet](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md#travel--places)
-- [Readme Template](https://github.com/othneildrew/Best-README-Template)
+This project is licensed under the MIT license - see the [License](./LICENSE.md) for details.
