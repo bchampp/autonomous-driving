@@ -29,7 +29,7 @@ from sensor_msgs.msg import Image
 from skimage.transform import resize
 from std_msgs.msg import UInt8
 from torch.autograd import Variable
-from yolov5_pytorch_ros.msg import BoundingBox, BoundingBoxes
+from qcar_perception.msg import BoundingBox, BoundingBoxes
 
 from models.experimental import attempt_load
 from utils.datasets import LoadImages, LoadStreams

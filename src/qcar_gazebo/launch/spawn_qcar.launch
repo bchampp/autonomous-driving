@@ -1,7 +1,7 @@
 <launch>	  
     <!-- Set initial robot pose -->
     <arg name="x" default="0.223209"/>
-    <arg name="y" default="-0.740870"/>
+    <arg name="y" default="-0.7"/>
     <arg name="z" default="0.066015"/>
     <arg name="roll" default="0"/>
     <arg name="pitch" default="0"/>

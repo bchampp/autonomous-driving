@@ -217,7 +217,7 @@
     <joint name="camera_rgb_joint" type="fixed">
 	    <!-- <axis xyz="0 1 0" /> -->
 	    <!-- <origin xyz=".2 0 0" rpy="0 0 0"/> -->
-        <origin rpy="0 0 0" xyz="0.081686 0.031547 0.15445"/>
+        <origin rpy="0 0 0" xyz="0.081686 0 0.15445"/>
         <!-- <origin rpy="0 0 0" xyz="0 0 0"/> -->
 	    <parent link="base"/>
 	    <child link="camera_rgb"/>
@@ -334,6 +334,23 @@
     <xacro:sensor_d435 name="camera" topics_ns="camera" parent="camera_rgb">
         <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:sensor_d435>  
+
+    <gazebo reference="camera_csi_front">
+        <sensor type="camera" name="front_camera">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+                <horizontal_fov>2</horizontal_fov>
+                <image>
+                    <width>640</width>
+                    <height>480</height>
+                    <format>R8G8B8</format>
+                </image>
+            </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <cameraName>qcar/csi_front</cameraName>
+            </plugin>
+        </sensor>
+    </gazebo>
 
     <gazebo>
         <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">

@@ -3,11 +3,9 @@ Panels:
     Help Height: 70
     Name: Selection
     Property Tree Widget:
-      Expanded:
-        - /Front Camera Image1
-        - /Image1
+      Expanded: ~
       Splitter Ratio: 0.5
-    Tree Height: 398
+    Tree Height: 281
   - Class: rviz/Tool Properties
     Expanded:
       - /2D Pose Estimate1
@@ -52,7 +50,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /camera/color/image_raw
+      Image Topic: /qcar/csi_front
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -87,7 +85,7 @@ Visualization Manager:
       Unreliable: false
       Value: true
     - Class: rviz/Image
-      Enabled: true
+      Enabled: false
       Image Topic: /detections_image_topic
       Max Value: 1
       Median window: 5
@@ -97,7 +95,147 @@ Visualization Manager:
       Queue Size: 2
       Transport Hint: raw
       Unreliable: false
+      Value: false
+    - Class: rviz/Image
+      Enabled: true
+      Image Topic: /vision/lanes/detections_top
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Lane Detection
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: raw
+      Unreliable: false
       Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: RGB8
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Flat Squares
+      Topic: /camera/depth/color/points
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Class: rviz/Image
+      Enabled: false
+      Image Topic: /camera/aligned_depth_to_color/image_raw
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Image
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: raw
+      Unreliable: false
+      Value: false
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rtabmap_ros/MapCloud
+      Cloud decimation: 4
+      Cloud from scan: false
+      Cloud max depth (m): 4
+      Cloud min depth (m): 0
+      Cloud voxel size (m): 0.009999999776482582
+      Color: 255; 255; 255
+      Color Transformer: RGB8
+      Download graph: false
+      Download map: false
+      Download namespace: rtabmap
+      Enabled: true
+      Filter ceiling (m): 0
+      Filter floor (m): 0
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: MapCloud
+      Node filtering angle (degrees): 30
+      Node filtering radius (m): 0
+      Position Transformer: XYZ
+      Queue Size: 10
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Flat Squares
+      Topic: /rtabmap/mapData
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Angle Tolerance: 0.10000000149011612
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.30000001192092896
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: false
+      Keep: 100
+      Name: Odometry
+      Position Tolerance: 0.10000000149011612
+      Queue Size: 10
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 255; 25; 0
+        Head Length: 0.30000001192092896
+        Head Radius: 0.10000000149011612
+        Shaft Length: 1
+        Shaft Radius: 0.05000000074505806
+        Value: Arrow
+      Topic: /odom
+      Unreliable: false
+      Value: false
+    - Class: rviz/TF
+      Enabled: false
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+      Marker Alpha: 1
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        {}
+      Update Interval: 0
+      Value: false
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
@@ -215,58 +353,6 @@ Visualization Manager:
       Update Interval: 0
       Value: true
       Visual Enabled: true
-    - Class: rviz/Image
-      Enabled: true
-      Image Topic: /vision/lanes/detections_top
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Lane Detection
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: true
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: RGB8
-      Decay Time: 0
-      Enabled: true
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Min Color: 0; 0; 0
-      Name: PointCloud2
-      Position Transformer: XYZ
-      Queue Size: 10
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.009999999776482582
-      Style: Flat Squares
-      Topic: /camera/depth/color/points
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
-    - Class: rviz/Image
-      Enabled: true
-      Image Topic: /camera/depth/image_raw
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Image
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -294,8 +380,8 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz/Orbit
-      Distance: 1.8979061841964722
+      Class: rtabmap_ros/OrbitOriented
+      Distance: 3.1647839546203613
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -306,14 +392,14 @@ Visualization Manager:
         X: 0
         Y: 0
         Z: 0
-      Focal Shape Fixed Size: true
+      Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4553982615470886
+      Pitch: 0.21039845049381256
       Target Frame: <Fixed Frame>
-      Yaw: 3.143571615219116
+      Yaw: 3.110400438308716
     Saved: ~
 Window Geometry:
   Front Camera Image:
@@ -327,7 +413,7 @@ Window Geometry:
     collapsed: false
   Object Detections:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000027600000211fc0200000008fb0000001200530065006c0065006300740069006f006e010000018b00000211000000c900fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000018b000001620000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c0000026100000001000001c900000201fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730000000119000001d6000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b2000000000000000000000002000009b800000148fc0100000009fb0000002400460072006f006e0074002000430061006d00650072006100200049006d0061006700650100000000000001d8000000be00fffffffb0000001c004c0061006e006500200044006500740065006300740069006f006e01000001de000001010000009c00fffffffb0000001e004c0061006e006500200044006500740065006300740069006f006e00730000000337000002e60000000000000000fb0000001c004c0061006e006500200044006500740065006300740069006f006e01000002e50000014a0000009c00fffffffb0000001e005200650061006c00530065006e0073006500200049006d0061006700650100000435000001c3000000a700fffffffb00000022004f0062006a00650063007400200044006500740065006300740069006f006e007301000005fe000001c4000000b000fffffffb0000000a0049006d00610067006501000007c8000001f00000005e00fffffffb0000000a0049006d006100670065000000037e0000027c0000000000000000fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000009b800000039fc0100000002fb0000000800540069006d00650100000000000009b8000002eb00fffffffb0000000800540069006d006501000000000000045000000000000000000000073c0000021100000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000002200000019cfc0200000008fb0000001200530065006c0065006300740069006f006e01000002000000019c000000c900fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000018b000001620000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c000002610000000100000174000001ecfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a0056006900650077007300000001cb000001ec000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000738000001bdfc0100000009fb0000002400460072006f006e0074002000430061006d00650072006100200049006d006100670065010000000000000191000000be00fffffffb0000001c004c0061006e006500200044006500740065006300740069006f006e0100000197000002070000009c00fffffffb0000001c004c0061006e006500200044006500740065006300740069006f006e01000003a4000001860000009c00fffffffb0000001e005200650061006c00530065006e0073006500200049006d006100670065010000053000000208000000a700fffffffb0000001e004c0061006e006500200044006500740065006300740069006f006e00730000000337000002e60000000000000000fb00000022004f0062006a00650063007400200044006500740065006300740069006f006e00730000000310000000b0000000b000fffffffb0000000a0049006d00610067006500000006360000014a0000005e00fffffffb0000000a0049006d006100670065000000037e0000027c0000000000000000fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073800000039fc0100000002fb0000000800540069006d0065010000000000000738000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000005120000019c00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   RealSense Image:
     collapsed: false
   Selection:
@@ -338,6 +424,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 2488
+  Width: 1848
   X: 72
   Y: 27

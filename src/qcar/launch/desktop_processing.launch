@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<launch>
+    <rosparam file="$(find qcar_interface)/cameras.yaml" command="load" />
+
+<!-- TODO: Static TF transformation from base to map -->
+<!-- <node pkg="tf" type="static_transform_publisher" name="robot_publisher" args="0 0 0 0 0 0 map base 100" /> -->
+<!-- <node pkg="tf" type="static_transform_publisher" name="odom_publisher" args="1 0 0 0 0 1 map odom 100" /> -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find qcar_gazebo)/urdf/qcar_model.xacro'"/>
+
+  <!-- Joint State Publisher -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+  <!-- Combine joint values -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- Show in Rviz   -->
+  <node name="rviz2" pkg="rviz" type="rviz" args="-d $(find qcar)/rviz/qcar.rviz"/> 
+
+  <node name="controller" pkg="qcar" type="commandnode.py" />
+
+    <!-- <node name="planning_node" pkg="qcar_planning" type="local_planner.py" output="screen" /> -->
+
+   <!-- <include file="$(find qcar_perception)/launch/object_detection.launch" /> -->
+
+  <!-- <include file="$(find qcar_perception)/launch/lane_detection.launch" /> -->
+
+</launch>

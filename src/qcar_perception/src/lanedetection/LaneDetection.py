@@ -3,8 +3,6 @@ import numpy as np
 import traceback
 from dataclasses import dataclass, field
 from typing import List
-from perception import log
-
 
 # Set in the form (width, height)
 default_roi = np.float32([
@@ -77,7 +75,7 @@ class LaneDetector:
 		self.width = width
 		self.height = height
 
-		self.padding = int(0.25 * width) # padding from side of the image in pixels
+		self.padding = int(0 * width) # padding from side of the image in pixels
 
 		self.desired_roi_points = np.float32([
 			[self.padding, 0],              # Top-left corner
@@ -193,7 +191,6 @@ class LaneDetector:
 							i.e. number of rows and columns
 		:return: Binary (black and white) 2D mask image
 		"""
-		log.info(f'Implement Sobel edge detection along X and Y')
 		# Get the magnitude of the edges that are vertically aligned on the image
 		sobelx = np.absolute(self.sobel(image, orient='x', sobel_kernel=sobel_kernel))
 				
@@ -216,7 +213,6 @@ class LaneDetector:
 		:param image: The raw image input to the pipeline.
 		:return: A binary image with the lane lines isolated.
 		"""
-		log.info('Isolate Lane Lines for the input image')
 		# White Color Mask
 		lower = np.uint8([200, 200, 200])
 		upper = np.uint8([255, 255, 255])
@@ -241,7 +237,6 @@ class LaneDetector:
 
 		:param image: The input image from the pipeline.
 		"""
-		log.info('Select region of interest on input image')
 		mask = np.zeros_like(image)   
 		# Defining a 3 channel or 1 channel color to fill the mask with depending on the input image
 		if len(image.shape) > 2:
@@ -267,7 +262,6 @@ class LaneDetector:
 		:param: print_to_terminal Display data to console if True       
 		:return: Offset from the center of the lane
 		"""
-		log.info('Calculate position of car compared to center of lane')
 		# Assume the camera is centered in the image.
 		# Get position of car in centimeters
 		car_location = self.width / 2
@@ -287,7 +281,6 @@ class LaneDetector:
 		# Display on terminal window and log
 		if print_to_terminal == True:
 			print(str(center_offset) + 'cm')
-		log.info(f'Center Offset: {center_offset} cm')
 
 		self.center_offset = center_offset
 		 
@@ -300,7 +293,6 @@ class LaneDetector:
 		:param: print_to_terminal Display data to console if True
 		:return: Radii of curvature
 		"""
-		log.info('Calculate Road Curvature')
 		# Set the y-value where we want to calculate the road curvature.
 		# Select the maximum y-value, which is the bottom of the frame.
 		y_eval = np.max(self.ploty)    
@@ -321,7 +313,6 @@ class LaneDetector:
 		# Display on terminal window and log
 		if print_to_terminal == True:
 			print(left_curvem, 'm', right_curvem, 'm')
-		log.info(f'Left Curve: {left_curvem} m Right Curve: {right_curvem} m')	
 
 		self.left_curvem = left_curvem
 		self.right_curvem = right_curvem
@@ -335,7 +326,6 @@ class LaneDetector:
 		:param frame: The warped image
 		:param plot: Create a plot if True
 		"""
-		log.info('Calculate Histogram')
 						 
 		# Generate the histogram
 		self.histogram = np.sum(frame[int(
@@ -349,8 +339,6 @@ class LaneDetector:
 		:param: plot Display the plot if True
 		:return: Image with lane lines and curvature
 		"""
-		log.info('Display Curvature and Offset')
-
 		image_copy = frame.copy()
  
 		# cv2.putText(image_copy,'Curve Radius: '+str((
@@ -376,7 +364,6 @@ class LaneDetector:
 		:param: right_fit Polynomial function of the right lane line
 		:param: plot To display an image or not
 		"""
-		log.info('Get lane line from previous sliding window')
 		# margin is a sliding window parameter
 		margin = self.margin
  
@@ -413,14 +400,12 @@ class LaneDetector:
 		try:
 			left_fit = np.polyfit(lefty, leftx, 2)
 		except TypeError:
-			log.exception('Exception occurred')
 			left_fit = np.array([0,0,0])
 			
 
 		try:
 			right_fit = np.polyfit(righty, rightx, 2) 
 		except TypeError:
-			log.exception('Exception occurred')
 			right_fit = self.fallback_right
 			
 				 
@@ -474,7 +459,6 @@ class LaneDetector:
 		:param: plot Show plot or not
 		:return: Best fit lines for the left and right lines of the current lane 
 		"""
-		log.info('Get indicies of lane line pixels')
 		# Sliding window width is +/- margin
 		margin = self.margin
  
@@ -551,14 +535,12 @@ class LaneDetector:
 		try:
 			left_fit = np.polyfit(lefty, leftx, 2)
 		except TypeError:
-			log.exception('Exception occurred')
 			left_fit = np.array([0,0,0])
 			
 
 		try:
 			right_fit = np.polyfit(righty, rightx, 2) 
 		except TypeError:
-			log.exception('Exception occurred')
 			right_fit = self.fallback_right
 			
 		self.left_fit = left_fit
@@ -573,7 +555,6 @@ class LaneDetector:
 		:param frame: The camera frame that contains the lanes we want to detect
 		:return: Binary (i.e. black and white) image containing the lane lines.
 		"""
-		log.info('Isolate lane lines')
 		# Convert the video frame from BGR (blue, green, red) 
 		# color space to HLS (hue, saturation, lightness).
 		hls = cv2.cvtColor(frame, cv2.COLOR_BGR2HLS)
@@ -632,7 +613,6 @@ class LaneDetector:
 		Return the x coordinate of the left histogram peak and the right histogram
 		peak.
 		"""
-		log.info('Left and Right Peak of Histogram')
 		midpoint = int(self.histogram.shape[0]/2)
 		leftx_base = np.argmax(self.histogram[:midpoint])
 		rightx_base = np.argmax(self.histogram[midpoint:]) + midpoint
@@ -647,7 +627,6 @@ class LaneDetector:
 		:param: plot Plot the warped image if True
 		:return: Bird's eye view of the current lane
 		"""
-		log.info('Perform Perspective transform')
 		# Calculate the transformation matrix
 		self.transformation_matrix = cv2.getPerspectiveTransform(
 			self.roi_points, self.desired_roi_points)
@@ -675,21 +654,22 @@ class LaneDetector:
 		:param: frame The current image frame
 		:param: plot Plot the roi image if True
 		"""
-		log.info('Show ROI on image')
 		overlay = frame.copy()
 		# Overlay trapezoid on the frame
-		this_image = cv2.polylines(overlay, np.int32([
+		roi_image = cv2.polylines(overlay, np.int32([
 			self.roi_points]), True, (147, 20, 255), 3)
- 
+			
+		desired_roi_image = cv2.polylines(overlay, np.int32([
+			self.desired_roi_points]), True, (147, 20, 255), 3)
+
 		# Display the image
-		cv2.imshow('ROI Image', this_image)
+		cv2.imshow('ROI Image', roi_image)
 		 
 	def get_host_lane(self, frame):
 		return self.host_lane
 		
 	def detect_lanes(self, frame):
 		""" Detect Lane Lines in an image. """
-		log.info('Detect Lane Lines in frame')
 		try:
 			isolated1 = self.get_line_markings(frame)
 			isolated2 = self.isolate_lanes(frame)
@@ -699,9 +679,9 @@ class LaneDetector:
 			self.warped_frame = self.perspective_transform(self.cropped_lane_lines)
 			self.histogram = self.calculate_histogram(self.warped_frame)
 			self.left_fit, self.right_fit = self.get_lane_line_indices_sliding_windows(self.warped_frame)
+			self.calculate_car_position(False)
 			self.get_lane_line_previous_window(self.left_fit, self.right_fit)
 		except Exception as e:
-			log.exception('Exception occurred')
 			raise e
 
 	def overlay_detections(self, frame):
@@ -710,14 +690,17 @@ class LaneDetector:
 		:param: Plot the lane lines if True
 		:return: Lane with overlay
 		"""
-		log.info('Overlay Lane Lines on original frame')
-
 		overlay = frame.copy()
 
 		# Generate an image to draw the lane lines on 
 		warp_zero = np.zeros(self.warped_frame.shape).astype(np.uint8)
 		color_warp = np.dstack((warp_zero, warp_zero, warp_zero))       
 				 
+		# print("Left", end="")
+		# print(self.left_fit)
+		# print("Right", end="")
+		# print(self.right_fit)
+
 		# Recast the x and y points into usable format for cv2.fillPoly()
 		pts_left = np.array([np.transpose(np.vstack([
 												 self.left_fitx, self.ploty]))])
@@ -725,57 +708,67 @@ class LaneDetector:
 													self.right_fitx, self.ploty])))])
 		pts = np.hstack((pts_left, pts_right))
 
+		midpoints = [] # this is a tuple
+		waypoints = [] # this is just the point
+		for row in range(len(pts_left[0])):
+			left_pt = pts_left[0][row][0] 
+			right_pt = pts_right[0][len(pts_left[0]) - row - 1][0]
+			midpoint = (right_pt + left_pt) / 2
+			midpoints.append((midpoint, row))
+			waypoints.append(midpoint)
+
 		# Find the values that define the line of best fit
 		# TODO: This can be improved with something like RANSAC
 		
 		# Take the points that define the line.
-		left_p1_x = int(self.left_fitx[0])
-		left_p1_y = 0
-		left_p2_x = int(self.left_fitx[-1])
-		left_p2_y = 480
+		# left_p1_x = int(self.left_fitx[0])
+		# left_p1_y = 0
+		# left_p2_x = int(self.left_fitx[-1])
+		# left_p2_y = 480
 
-		right_p1_x = int(self.right_fitx[0])
-		right_p1_y = 0
-		right_p2_x = int(self.right_fitx[-1])
-		right_p2_y = 480
+		# right_p1_x = int(self.right_fitx[0])
+		# right_p1_y = 0
+		# right_p2_x = int(self.right_fitx[-1])
+		# right_p2_y = 480
 
-		# Determine what points are the top and bottom (for midpoint calculation)
-		if (left_p1_y > left_p2_y):
-			left_top_x = left_p2_x
-			left_top_y = left_p2_y
-			left_bottom_x = left_p1_x
-			left_bottom_y = left_p1_y
+		# # Determine what points are the top and bottom (for midpoint calculation)
+		# if (left_p1_y > left_p2_y):
+		# 	left_top_x = left_p2_x
+		# 	left_top_y = left_p2_y
+		# 	left_bottom_x = left_p1_x
+		# 	left_bottom_y = left_p1_y
 
-		else:
-			left_top_x = left_p1_x
-			left_top_y = left_p1_y
-			left_bottom_x = left_p2_x
-			left_bottom_y = left_p2_y
+		# else:
+		# 	left_top_x = left_p1_x
+		# 	left_top_y = left_p1_y
+		# 	left_bottom_x = left_p2_x
+		# 	left_bottom_y = left_p2_y
 
-		if (right_p1_y > right_p2_y):
-			right_top_x = right_p2_x
-			right_top_y = right_p2_y
-			right_bottom_x = right_p1_x
-			right_bottom_y = right_p1_y
+		# if (right_p1_y > right_p2_y):
+		# 	right_top_x = right_p2_x
+		# 	right_top_y = right_p2_y
+		# 	right_bottom_x = right_p1_x
+		# 	right_bottom_y = right_p1_y
 
-		else:
-			right_top_x = right_p1_x
-			right_top_y = right_p1_y
-			right_bottom_x = right_p2_x
-			right_bottom_y = right_p2_y
+		# else:
+		# 	right_top_x = right_p1_x
+		# 	right_top_y = right_p1_y
+		# 	right_bottom_x = right_p2_x
+		# 	right_bottom_y = right_p2_y
 
-		midpoint_top_x = int((right_top_x + left_top_x) / 2)
-		midpoint_top_y = left_top_y if left_top_y < right_top_y else right_top_y
-		midpoint_bottom_x = int(color_warp.shape[1] / 2)
-		midpoint_bottom_y = int(color_warp.shape[0])
+		# midpoint_top_x = int((right_top_x + left_top_x) / 2)
+		# midpoint_top_y = left_top_y if left_top_y < right_top_y else right_top_y
+		# midpoint_bottom_x = int(color_warp.shape[1] / 2)
+		# midpoint_bottom_y = int(color_warp.shape[0])
 
 		# Draw lane on the warped blank image
 		cv2.fillPoly(color_warp, np.int_([pts]), (0, 255, 0))
-		cv2.polylines(color_warp, np.int_([pts]), True, (0, 0, 255), 10)
+		cv2.polylines(color_warp, np.int_([pts]), True, (0, 0, 255), 3)
+		cv2.polylines(color_warp, np.int_([midpoints]), False, (0, 255, 255), 3)
 
-		cv2.line(color_warp, (left_bottom_x, left_bottom_y), (left_top_x, left_top_y), (255, 0, 0), 10)
-		cv2.line(color_warp, (right_bottom_x, right_bottom_y), (right_top_x, right_top_y), (255, 0, 0), 10)
-		cv2.line(color_warp, (midpoint_bottom_x, midpoint_bottom_y), (midpoint_top_x, midpoint_top_y), (0, 0, 255), 10)
+		# cv2.line(color_warp, (left_bottom_x, left_bottom_y), (left_top_x, left_top_y), (255, 0, 0), 10)
+		# cv2.line(color_warp, (right_bottom_x, right_bottom_y), (right_top_x, right_top_y), (255, 0, 0), 10)
+		# cv2.line(color_warp, (midpoint_bottom_x, midpoint_bottom_y), (midpoint_top_x, midpoint_top_y), (0, 0, 255), 10)
 
 		# Warp the blank back to original image space using inverse perspective matrix
 		newwarp = cv2.warpPerspective(color_warp, self.inv_transformation_matrix, (self.width, self.height))
@@ -784,13 +777,14 @@ class LaneDetector:
 
 		# Combine the result with the original image
 		result = cv2.addWeighted(overlay, 1, newwarp, 0.6, 0)
+		# cv2.imshow("Test", color_warp)
+		# cv2.waitKey(1)
 		self.lanes_top_view = color_warp
 		self.lane_pts_top_view = pts
 		self.lanes_camera_view = result
-		self.target_x = midpoint_top_x
+		self.waypoints = np.flip(waypoints)
 		return result           
 		
 	def print_detections(self):
 		for line in self.lane_lines:
 			print(f'Lane: {line.type}\tColor: {line.color}\tCurvature: {line.curvature}')
-			log.info(f'Lane: {line.type}\tColor: {line.color}\tCurvature: {line.curvature}')
