@@ -54,7 +54,7 @@ This project implements an autonomous driving system for the Quanser QCar, along
 
 The modules implemented in this project are:
 
-1. Hardware interface with camera, depth, imu, and motor control.
+1. Hardware interface with camera, depth sensor, IMU, and motor control.
 2. Image processing pipeline to calibrate and synchronize data.
 3. Perception system including lane detection and object detection.
 4. Planning system to determine the vehicles movements.
@@ -65,7 +65,7 @@ The modules implemented in this project are:
 
 ## :toolbox: Getting Started
 
-This project is implemented using the Robotic Operating System (ROS). The root of the repository acts as the catkin workspace. ROS packages are found in `src/`.
+This project is implemented using the Robotic Operating System (ROS). The root of this repository acts as the catkin workspace. ROS packages are found in `src/`. Please make sure you have ROS Noetic or Melodic installed before installing this repository, by following the official ROS installation <a href="https://wiki.ros.org/ROS/Installation">guide</a>.
 
 Build the catkin workspace:
 
@@ -83,7 +83,7 @@ source devel/setup.bash # update the environment
   <img src="doc/img/gazebo.png" alt="screenshot" />
 </div>
 
-Gazebo is used as a simulation environment for the system. URDF files are provided to accurately model the vehicle. More instructions for running the gazebo simulation can be found in the `qcar_gazebo` package.
+Gazebo is used as a simulation environment for the system. Gazebo is installed when the 'Desktop-Full' ROS installation method is used. URDF files are provided to accurately model the vehicle. More instructions for running the gazebo simulation can be found in the `qcar_gazebo` package.
 
 To run the simulation with all systems running:
 
@@ -99,7 +99,7 @@ roslaunch qcar_gazebo qcar_perception.launch
 
 #### CARLA
 
-CARLA is an open source simulation platform built with the Unreal Engine. The perception systems can be run in the CARLA world using:
+CARLA is an open source simulation platform built with the Unreal Engine. In order to use CARLA, first install it <a href="https://carla.readthedocs.io/en/latest/start_quickstart/">here</a>, then install the <a href="https://carla.readthedocs.io/projects/ros-bridge/en/latest/ros_installation_ros1/">ROS-CARLA-Bridge</a>. Once that that is completed, the perception systems can be run in the CARLA world using:
 
 ```
 roslaunch qcar_carla qcar_perception
