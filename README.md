@@ -1,119 +1,121 @@
-# Autonomous Driving using SLAM
+<div align="center">
 
-This project implements a prototype of an autonomous vehicle on the Quanser QCar.
-
-<p align="center">
-    <img width="300px" src="./doc/img/qcar.png" />
+  <img src="doc/img/qcar.png" alt="logo" width="250" height="auto" />
+  <h1>Autonomous Driving using SLAM</h1>
+  
+  <p>
+    An open-source autonomous driving system built with ROS 1. 
+  </p>
+  
+  
+<!-- Badges -->
+<p>
+  <a href="">
+    <img src="https://img.shields.io/github/last-commit/bchampp/autonomous-driving" alt="last update" />
+  </a>
+  <a href="https://github.com/bchampp/autonomous-driving/stargazers">
+    <img src="https://img.shields.io/github/stars/bchampp/autonomous-driving" alt="stars" />
+  </a>
+  <a href="https://github.com/bchampp/autonomous-driving/issues/">
+    <img src="https://img.shields.io/github/issues/bchampp/autonomous-driving" alt="open issues" />
+  </a>
+  <a href="https://github.com/bchampp/autonomous-driving/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/bchampp/autonomous-driving.svg" alt="license" />
+  </a>
 </p>
+   
+<h4>
+    <!-- TODO: Insert YouTube Video -->
+    <a href="">View Demo</a>
+  <span> · </span>
+    <a href="https://github.com/bchampp/autonomous-driving/doc/perception.md">Documentation</a>
+  <span> · </span>
+    <a href="https://github.com/bchampp/autonomous-driving/issues/">Report Bug</a>
+  </h4>
+</div>
 
-## Goals
-The main goal of this project is to learn about the different components that make up a self driving car stack. This project explores different approaches to perception, mapping, planning and control systems. 
+<br />
+
+<!-- Table of Contents -->
+
+# :notebook_with_decorative_cover: Table of Contents
+
+- [About the Project](#star2-about-the-project)
+- [Getting Started](#toolbox-getting-started)
+- [Usage](#eyes-usage)
+- [Contact](#handshake-contact)
+- [License](#warning-license)
+
+<!-- About the Project -->
+
+## :star2: About the Project
+
+This project implements an autonomous driving system for the Quanser QCar, along with a simulation environment to accurately test in.
 
 The modules implemented in this project are:
-1. Hardware interface with camera, depth, imu, and motor control.
+
+1. Hardware interface with camera, depth sensor, IMU, and motor control.
 2. Image processing pipeline to calibrate and synchronize data.
-2. Perception system including lane detection and object detection.
-3. Planning system to control the cars behaviour.
-4. Control system to effectively move the car.
-5. Simulation using CARLA and Gazebo.
+3. Perception system including lane detection and object detection.
+4. Planning system to determine the vehicles movements.
+5. Control system to actuate the throttle and steering.
+6. Simulation using CARLA and Gazebo.
 
-## Getting Started
-This project is implemented using the Robotic Operating System (ROS). 
+<!-- Screenshots -->
 
-After cloning this repo, and before you build it using catkin_make, you must first install the vision_opencv package that is approriate for your ROS version.
+## :toolbox: Getting Started
 
-### Downloading vision_opencv for ROS Noetic
-If you are using ROS Noetic, you can download the appropriate library by going to this git repo (ensure you are on the Noetic branch): https://github.com/ros-perception/vision_opencv/tree/noetic
+This project is implemented using the Robotic Operating System (ROS). The root of this repository acts as the catkin workspace. ROS packages are found in `src/`. Please make sure you have ROS Noetic or Melodic installed before installing this repository, by following the official ROS installation <a href="https://wiki.ros.org/ROS/Installation">guide</a>.
+
+Build the catkin workspace:
+
 ```
-cd src
-git clone -b noetic git@github.com:ros-perception/vision_opencv.git
-```
-### Downloading vision_opencv for ROS Melodic and on the QCar
-If you are installing on the Quanser Qcar, or on any machine running ROS Melodic, you can grab the appropriate vision_openCV library from this repo https://github.com/queens-autodrive/vision-opencv
-```
-cd src
-git clone git@github.com:queens-autodrive/vision-opencv.git
-```
-## Building your Project
-Now you can build your project. The catkin workspace is stored in the `ros` folder. So we must change to our parent directory and run a few commands:
-```
-cd ..
-source /opt/ros/<ROS_Version>/setup.bash # The QCar uses melodic, everywhere else we use noetic
-catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
-source devel/setup.bash
+source /opt/ros/$ROS_DISTRO/setup.bash # melodic or noetic
+catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3 # ensure it is built with python3
+source devel/setup.bash # update the environment
 ```
 
-## Data Collection and Playback
-Launch files have been included to easily collect and replay data against the developed system. These files are included in the `qcar` package as `collect.launch` and `playback.launch`. The collect script will collect data from all relevant sensors for the system using the controller as input. The playback script will replay a rosbag and run all the systems against the recorded data.
+### Simulation
 
-To collect data:
-```
-roslaunch qcar collect.launch
-```
+#### Gazebo
 
-To replay data:
-```
-roslaunch qcar playback.launch
-```
+<div align="center"> 
+  <img src="doc/img/gazebo.png" alt="screenshot" />
+</div>
 
-## Hardware Interface
-The hardware interface contains nodes to interact with the hardware available on the car. This is implemented in the `qcar` package in the ros workspace. 
-
-The following nodes are implemented:
-- `commandnode.py` - This is an interface to interact with a Logitech F710 controller
-- `csinode.py` - This is an interface to interact with the fisheye cameras on the car
-- `lidarnode.py` - This is an interface to interact with the RP Lidar.
-- `rgbdnode.py` - This is an interface to interact with the Intel Realsense D435 camera
-- `qcarnode.py` - This is an interface to interact with the motors on the car
-
-Launch files have been included in the qcar package to connect to these sensors. More detail can be found in the package documentation. 
-
-To run the vehicle and sensors manually using the controller:
-```
-roslaunch qcar manual_control.launch
-```
-<b>Note:</b> You may get an error running this on a fresh QCar setup as the QCar libraries require root permissions to actuate the hardware controllers. In this case, update the sudoers file and add the following line at the end: 
-```
-nvidia ALL=(ALL) NOPASSWD: ALL
-```
-This will allow ros to execute sudo without requiring a password. 
-
-## Perception
-The perception interface is implemented in the `qcar_perception` package.
-
-The following nodes are implemented: 
-- `object_detection.py` - This node detects objects using a YOLOv3 neural network 
-- `lane_detection.py` - This node detects lane lines using computer vision techniques
-
-## Planning
-The planning system is implemented in the `qcar_planning` package.
-
-
-## Simulation
-### Gazebo
-Gazebo is an open source simulation platform developed by the same team as ROS. The team used Gazebo to model accurate environments to test the autonomous driving software in. This was used heavily for developing how the perception and planning systems interact. 
-
-<p align="center">
-    <img width="800px" src="./doc/img/gazebo.png" />
-</p>
-
-More specific information for running the gazebo simulation can be found in `qcar_gazebo`.
+Gazebo is used as a simulation environment for the system. Gazebo is installed when the 'Desktop-Full' ROS installation method is used. URDF files are provided to accurately model the vehicle. More instructions for running the gazebo simulation can be found in the `qcar_gazebo` package.
 
 To run the simulation with all systems running:
+
 ```
 roslaunch qcar_gazebo qcar_world.launch
 ```
 
 To run the simulation with only perception systems running:
+
 ```
 roslaunch qcar_gazebo qcar_perception.launch
 ```
 
-## CARLA Integration
-CARLA is an open source autonomous driving simulator built on the Unreal Engine. CARLA was used to test the accuracy of the perception systems implemented, and extend the project beyond the QCar. 
+#### CARLA
 
-To run the CARLA simulation with the perception systems running:
+CARLA is an open source simulation platform built with the Unreal Engine. In order to use CARLA, first install it <a href="https://carla.readthedocs.io/en/latest/start_quickstart/">here</a>, then install the <a href="https://carla.readthedocs.io/projects/ros-bridge/en/latest/ros_installation_ros1/">ROS-CARLA-Bridge</a>. Once that that is completed, the perception systems can be run in the CARLA world using:
+
 ```
 roslaunch qcar_carla qcar_perception
 ```
 
+<!-- Contact -->
+
+## :handshake: Authors
+
+- [Brent Champion](mailto:brent.champion@queensu.ca)
+- [Erin Peterson](erin.peterson@queensu.ca)
+- [Laure Halabi](laure.halabi@queensu.ca)
+- [Raed Fayad](raed.fayad@queensu.ca)
+
+<!-- License -->
+
+## :warning: License
+
+This project is licensed under the MIT license - see the [License](./LICENSE.md) for details.
